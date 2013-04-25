@@ -2,7 +2,7 @@
 
 namespace Boyhagemann\Pages\Model;
 
-class Pages extends \Eloquent {
+class Page extends \Eloquent {
     protected $guarded = array();
 
 	/**
@@ -16,7 +16,13 @@ class Pages extends \Eloquent {
 		'title' => 'required'
 	);
     
+    public function layout()
+    {
+        return $this->belongsTo('Boyhagemann\Pages\Model\Layout');
+    }
+
     
+
     public function getSortedContent()
     {        
         return array(

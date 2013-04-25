@@ -19,7 +19,7 @@
                     <td>{{ $page->name }}</td>
 					<td>{{ $page->path }}</td>
 					<td>{{ $page->title }}</td>
-					<td>{{ $page->layout }}</td>
+					<td>{{ $page->layout->title }}</td>
                     <td>{{ link_to_route('cms.pages.edit', 'Edit', array($page->id), array('class' => 'btn btn-info')) }}</td>
                     <td>
                         {{ Form::open(array('method' => 'DELETE', 'route' => array('cms.pages.destroy', $page->id))) }}

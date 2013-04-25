@@ -2,7 +2,7 @@
 
 namespace Boyhagemann\Pages\Controller;
 
-use Boyhagemann\Pages\Model\Pages;
+use Boyhagemann\Pages\Model\Page as Pages;
 use View, Input, Redirect, Validator, Route, Request;
 
 class PagesController extends \BaseController {
@@ -160,7 +160,7 @@ class PagesController extends \BaseController {
         }
         
         // Set the right layout for this page
-        $this->layout = View::make($page->layout);        
+        $this->layout = View::make($page->layout->name);        
         
         // Dispatch the page
         $this->dispatchRoute($page->path);                
