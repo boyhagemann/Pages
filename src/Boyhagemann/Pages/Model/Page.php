@@ -47,6 +47,7 @@ class Page extends \Eloquent {
         );
     }
     
+
     public function getDefaults()
     {
         return array(

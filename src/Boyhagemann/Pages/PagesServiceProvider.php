@@ -27,7 +27,7 @@ class PagesServiceProvider extends ServiceProvider {
 	{
 		$this->package('boyhagemann/pages');
         
-        Route::get('test', 'HomeController@showWelcome');
+        Route::get('cms/pages/import', 'Boyhagemann\Pages\Controller\PagesController@importOverview');
         Route::resource('cms/pages', 'Boyhagemann\Pages\Controller\PagesController');
                        
                       

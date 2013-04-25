@@ -133,6 +133,38 @@ class PagesController extends \BaseController {
         return Redirect::route('cms.pages.index');
     }
     
+    
+    public function importOverview()
+    {        
+        $pages = array();
+        foreach(Pages::all() as $page) {
+            $pages[$page->name] = $page;
+        }
+        $available = array_diff_key(Route::getRoutes()->all(), array_keys($pages));
+        
+        $routes = array();
+        foreach($available as $route) {
+            $routes[] = array(
+                'path' => $route->getPath(),
+                'uses' => $route->getOption('_uses'),
+            );
+        }
+            
+        return View::make('pages::pages.import', compact('routes'));
+    }
+
+    /**
+     * Show the form for importing a new resource.
+     *
+     * @return Response
+     */
+    public function importOne($name)
+    {
+        return View::make('pages::pages.import-one');
+    }
+
+    
+    
     /**
      * Override the default dispatching and add content to the view
      * 
