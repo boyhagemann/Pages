@@ -40,12 +40,7 @@ class ImportController extends \BaseController {
         $name = Input::input('name');        
         $route = Route::getRoutes()->get($name);
         
-        $page = new Pages();
-        $page->name = $name;
-        $page->path = $route->getPath();
-        $page->title = $route->getOption('_uses');
-        $page->layout_id = 1;
-        $page->save();
+        Pages::createFromRoute($name, $route);
         
         return Redirect::route('pages.import')->with('flash', 'Page imported');
     }
@@ -59,12 +54,7 @@ class ImportController extends \BaseController {
     {
         foreach($this->getNotImportedRoutes() as $name => $route) {
         
-            $page = new Pages();
-            $page->name = $name;
-            $page->path = $route->getPath();
-            $page->title = $route->getOption('_uses');
-            $page->layout_id = 1;
-            $page->save();
+            Pages::createFromRoute($name, $route);
         }
         
         return Redirect::route('pages.import')->with('flash', 'All pages imported');
@@ -83,6 +73,5 @@ class ImportController extends \BaseController {
         
         return array_diff_key(Route::getRoutes()->all(), $pages);
     }
-
 
 }

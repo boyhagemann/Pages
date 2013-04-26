@@ -163,28 +163,30 @@ class PagesController extends \BaseController {
         $this->layout = View::make($page->layout->name);        
         
         // Dispatch the page
-        $this->dispatchRoute($page->path);                
+        $this->dispatchRoute($page->path);        
+        
+        
         
         // When the layout is being rendered, add content to each zone
-        View::composer('layouts.default', function($view) use ($page) {
-                     
+        View::composer($page->layout->name, function($view) use ($page) {
+                             
             foreach($page->getSortedContent() as $zone => $blocks) {
                 
                 // Start with an empty zone
                 $this->layout->$zone = '';
                 
-                foreach($blocks as $block) {            
+                foreach($blocks as $pageBlock) {            
                     
                     // If the block has a custom view path, then override the
                     // default view with this one
-                    if(isset($block['view'])) {
+                    if(isset($pageBlock->view)) {
                         View::composer($block['view']['original'], function($view) use($block) {            
                             $view->setPath($block['view']['override']);
                         });
                     }
                     
                     // Dispatch the action and add the response to the right zone
-                    $this->layout->$zone .= $this->dispatchAction($block['action'], $block['defaults']);
+                    $this->layout->$zone .= $this->dispatchAction($pageBlock->block->action, array());
                 }
             }
             

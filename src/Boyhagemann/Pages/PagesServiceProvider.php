@@ -46,7 +46,6 @@ class PagesServiceProvider extends ServiceProvider {
         // Change the request url to point to the dispatch route
         $_SERVER['REQUEST_URI'] = '/boyhagemann/cms/public/dispatch-page';
         App::instance('request', \Request::createFromGlobals());
-        
 
         
         Route::before(function() {  

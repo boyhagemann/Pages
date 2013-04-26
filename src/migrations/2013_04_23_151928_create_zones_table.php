@@ -17,8 +17,10 @@ class CreateZonesTable extends Migration {
 			$table->increments('id');
             $table->string('name'); 
             $table->string('title'); 
+            $table->integer('layout_id'); 
             
             $table->index('name'); 
+            $table->index('layout_id'); 
 			$table->timestamps();
 		});
 	}
