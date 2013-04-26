@@ -142,7 +142,7 @@ class PagesController extends \BaseController {
     {
         // Get the original route that the system is supposed to dispatch
         $original = Route::getCurrentRoute()->getOption('originalRoute');        
-        
+                
         // Only continue if an original route was found
         if(!$original) {
             return 'Page not found';
