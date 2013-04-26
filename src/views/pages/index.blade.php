@@ -24,10 +24,11 @@
                     <td>{{ $page->name }}</td>
 					<td>{{ $page->path }}</td>
 					<td>{{ $page->layout->title }}</td>
-                    <td>{{ link_to_route('cms.pages.edit', 'Edit', array($page->id), array('class' => 'btn btn-info')) }}</td>
+                    <td>{{ link_to_route('cms.pageblocks.edit', 'Content', array($page->id), array('class' => 'btn btn-info btn-small')) }}</td>
+                    <td>{{ link_to_route('cms.pages.edit', 'Properties', array($page->id), array('class' => 'btn btn-info btn-small')) }}</td>
                     <td>
                         {{ Form::open(array('method' => 'DELETE', 'route' => array('cms.pages.destroy', $page->id))) }}
-                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                            {{ Form::submit('Delete', array('class' => 'btn btn-danger btn-small')) }}
                         {{ Form::close() }}
                     </td>
                 </tr>
