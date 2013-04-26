@@ -1,6 +1,12 @@
 <h1>Edit Page</h1>
 {{ Form::model($page, array('method' => 'PATCH', 'route' => array('cms.pages.update', $page->id))) }}
     <ul>
+
+        <li>
+            {{ Form::label('title', 'Title:') }}
+            {{ Form::text('title') }}
+        </li>
+        
         <li>
             {{ Form::label('name', 'Name:') }}
             {{ Form::text('name') }}
@@ -12,13 +18,8 @@
         </li>
 
         <li>
-            {{ Form::label('title', 'Title:') }}
-            {{ Form::text('title') }}
-        </li>
-
-        <li>
-            {{ Form::label('layout', 'Layout:') }}
-            {{ Form::text('layout') }}
+            {{ Form::label('layout_id', 'Layout:') }}
+            {{ Form::text('layout_id') }}
         </li>
 
         <li>

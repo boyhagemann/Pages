@@ -91,7 +91,7 @@ class PagesController extends \BaseController {
         {
             return Redirect::route('cms.pages.index');
         }
-
+        
         return View::make('pages::pages.edit', compact('page'));
     }
 
@@ -141,7 +141,7 @@ class PagesController extends \BaseController {
     public function dispatch()
     {
         // Get the original route that the system is supposed to dispatch
-        $original = Route::getCurrentRoute()->getOption('originalRoute');        
+        $original = Route::getCurrentRoute()->getOption('originalRoute'); 
                 
         // Only continue if an original route was found
         if(!$original) {
@@ -161,11 +161,10 @@ class PagesController extends \BaseController {
         
         // Set the right layout for this page
         $this->layout = View::make($page->layout->name);        
+                
         
-        // Dispatch the page
-        $this->dispatchRoute($page->path);        
-        
-        
+        // Dispatch the page      
+        $this->dispatchRoute(Request::path());        
         
         // When the layout is being rendered, add content to each zone
         View::composer($page->layout->name, function($view) use ($page) {
@@ -186,7 +185,7 @@ class PagesController extends \BaseController {
                     }
                     
                     // Dispatch the action and add the response to the right zone
-                    $this->layout->$zone .= $this->dispatchAction($pageBlock->block->action, array());
+                    $this->layout->$zone .= $this->dispatchAction($pageBlock->block->action);
                 }
             }
             
@@ -204,6 +203,7 @@ class PagesController extends \BaseController {
      */
     public function dispatchRoute($route, $method = 'GET', $params = array())
     {
+        $route = '/' . ltrim($route, '/');
         $request = Request::create($route, $method, $params);
         return Route::dispatch($request)->getContent();
     }
@@ -216,21 +216,8 @@ class PagesController extends \BaseController {
      */
     public function dispatchAction($action, $params = array())
     {
-        $parts = array();
-        $patterns = array();
-        
-        foreach($params as $key => $value) {
-            $parts[sprintf('{%s}', $key)] = $value;
-            $patterns[sprintf('/\{%s\}/', $key)] = $value;
-        }
-        $uri = '/testdus/' . implode('/', array_keys($parts));
-        Route::get($uri, $action);
-        
-        foreach($patterns as $pattern => $value) {
-            $uri = preg_replace($pattern, $value, $uri);
-        }
-        
-        return $this->dispatchRoute($uri, 'GET', $params);
+        Route::get(Request::path(), $action);                
+        return $this->dispatchRoute(Request::path(), 'GET', $params);
     }
 
 }

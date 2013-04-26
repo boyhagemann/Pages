@@ -46,12 +46,13 @@ class PagesServiceProvider extends ServiceProvider {
         // We only want to ovverride GET requests for displaying blocks.
         // Leave POST and UPDATE alone (for now)
         if(Request::getMethod() == 'GET') {
-            
+                        
             // Change the request url to point to the dispatch route
             $_SERVER['REQUEST_URI'] = Request::getBaseUrl() . '/dispatch-page';
             App::instance('request', Request::createFromGlobals());
 
         }
+        
         
         Route::before(function() {  
             
@@ -63,7 +64,7 @@ class PagesServiceProvider extends ServiceProvider {
 
                 $parameters = $matcher->match('/' . ltrim(Request::path(), '/'));
                 $found = Route::getRoutes()->get($parameters['_route']);
-
+                            
                 foreach(Route::getRoutes()->all() as $name => $route) {
                     $route->setOption('name', $name);
                     $route->setOption('originalRoute', $found);                    
