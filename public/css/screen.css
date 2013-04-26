@@ -1,0 +1,17 @@
+
+blockquote.block {
+    position: relative;
+    padding: 10px;
+}
+blockquote.block:hover {
+    background-color: #f6f6f6;
+}
+blockquote.block .btn-group {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+blockquote.block:hover .btn-group {
+    display: block;
+}
