@@ -42,7 +42,7 @@ class ImportController extends \BaseController {
         
         Pages::createFromRoute($name, $route);
         
-        return Redirect::route('pages.import')->with('flash', 'Page imported');
+        return Redirect::route('pages.import')->with('success', 'Page imported');
     }
 
     /**
@@ -57,7 +57,7 @@ class ImportController extends \BaseController {
             Pages::createFromRoute($name, $route);
         }
         
-        return Redirect::route('pages.import')->with('flash', 'All pages imported');
+        return Redirect::route('pages.import')->with('success', 'All pages imported');
     }
 
     /**

@@ -1,6 +1,10 @@
 <h1>All Pages</h1>
 
-<p>{{ link_to_route('cms.pages.create', 'Add new page') }}</p>
+<p>
+    {{ link_to_route('cms.pages.create', 'Add new page') }} | 
+    {{ link_to_route('pages.import', 'Import') }}
+
+</p>
 
 @if ($pages->count())
     <table class="table table-striped table-bordered">

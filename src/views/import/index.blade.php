@@ -1,8 +1,11 @@
 <h1>Import Pages</h1>
 
-<a href="{{ URL::route('pages.import.all') }}" class="btn btn-primary">Import all</a>
-
 @if ($routes)
+
+    <p>
+        <a href="{{ URL::route('pages.import.all') }}" class="btn btn-primary">Import all</a>
+    </p>
+
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -29,3 +32,7 @@
 @else
     There are no pages to import
 @endif
+
+<p>
+    <a href="{{ URL::route('cms.pages.index') }}" class="">Back to the page list</a>
+</p>
