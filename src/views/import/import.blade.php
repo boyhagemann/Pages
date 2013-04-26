@@ -14,7 +14,11 @@
                 <tr>
 					<td>{{ $route['path'] }}</td>
 					<td>{{ $route['uses']}}</td>
-                    <td>{{ link_to_action('Boyhagemann\Pages\Controller\PagesController@importOne', 'Import', array($route['path']), array('class' => 'btn btn-info')) }}</td>
+                    <td>
+                        {{ Form::open(array('method' => 'DELETE', 'route' => array('cms.pages.import', $page->id))) }}
+                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                        {{ Form::close() }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>

@@ -22,7 +22,7 @@ class CreatePagesTable extends Migration {
             $table->integer('layout_id'); 
                         
             $table->unique('name'); 
-            $table->unique('path'); 
+            $table->index('path'); 
             $table->index('layout_id'); 
 		});
 	}

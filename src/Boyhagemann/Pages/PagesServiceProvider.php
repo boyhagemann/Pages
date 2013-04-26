@@ -27,12 +27,26 @@ class PagesServiceProvider extends ServiceProvider {
 	{
 		$this->package('boyhagemann/pages');
         
-        Route::get('cms/pages/import', 'Boyhagemann\Pages\Controller\PagesController@importOverview');
+        Route::get('dispatch-page', 'Boyhagemann\Pages\Controller\PagesController@dispatch');
         Route::resource('cms/pages', 'Boyhagemann\Pages\Controller\PagesController');
+        Route::get('cms/import', array(
+            'as'    => 'pages.import',
+            'uses'  => 'Boyhagemann\Pages\Controller\ImportController@index'
+        ));
+        Route::post('cms/import/page', array(
+            'as'    => 'pages.import.page',
+            'uses'  => 'Boyhagemann\Pages\Controller\ImportController@page'
+        ));
+        Route::get('cms/import/all', array(
+            'as'    => 'pages.import.all',
+            'uses'  => 'Boyhagemann\Pages\Controller\ImportController@all'
+        ));
                        
                       
-        App::instance('request', Request::create('/dispatch-page'));
-        Route::get('/dispatch-page', 'Boyhagemann\Pages\Controller\PagesController@dispatch');
+        // Change the request url to point to the dispatch route
+        $_SERVER['REQUEST_URI'] = '/boyhagemann/cms/public/dispatch-page';
+        App::instance('request', \Request::createFromGlobals());
+        
 
         
         Route::before(function() {  
