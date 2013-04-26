@@ -21,4 +21,9 @@ class Layout extends \Eloquent {
         return $this->hasMany('Boyhagemann\Pages\Model\Page');
     }
     
+    public function zones()
+    {
+        return $this->hasMany('Boyhagemann\Pages\Model\Zone');
+    }
+    
 }

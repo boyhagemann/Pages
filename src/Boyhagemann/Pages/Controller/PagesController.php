@@ -94,7 +94,7 @@ class PagesController extends \BaseController {
         
         return View::make('pages::pages.edit', compact('page'));
     }
-
+    
     /**
      * Update the specified resource in storage.
      *

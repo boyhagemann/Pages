@@ -3,7 +3,7 @@
 namespace Boyhagemann\Pages\Controller;
 
 use Boyhagemann\Pages\Model\Page as Pages;
-use View, Input, Redirect, Validator, Route, Request;
+use View, Input, Redirect, Route;
 
 class ImportController extends \BaseController {
 
@@ -26,7 +26,7 @@ class ImportController extends \BaseController {
      */
     public function index()
     {
-        $routes = $this->getNotImportedRoutes();       
+        $routes = $this->getNotImportedRoutes();    
         return View::make('pages::import.index', compact('routes'));
     }
 
