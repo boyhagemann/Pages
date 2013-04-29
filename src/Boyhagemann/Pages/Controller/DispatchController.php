@@ -3,7 +3,7 @@
 namespace Boyhagemann\Pages\Controller;
 
 use Boyhagemann\Pages\Model\Page as Pages;
-use View, Route, Request;
+use View, Route, Request, App;
 
 class DispatchController extends \BaseController {
     
@@ -19,7 +19,7 @@ class DispatchController extends \BaseController {
                 
         // Only continue if an original route was found
         if(!$original) {
-            return 'Page not found';
+            App::abort(404, 'Page not found');
         }
         
         // Search for a page in the database that has the same name as the
@@ -63,10 +63,9 @@ class DispatchController extends \BaseController {
         });
         
     }
-
-    
     
     /**
+     * Dispatch a route
      * 
      * @param string $route
      * @param string $method
@@ -81,6 +80,7 @@ class DispatchController extends \BaseController {
     }
     
     /**
+     * Dispatch an action
      * 
      * @param string $action
      * @param array $params
