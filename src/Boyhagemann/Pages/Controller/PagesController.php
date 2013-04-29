@@ -163,9 +163,6 @@ class PagesController extends \BaseController {
         $this->layout = View::make($page->layout->name);        
                 
         
-        // Dispatch the page      
-        $this->dispatchRoute(Request::path());        
-        
         // When the layout is being rendered, add content to each zone
         View::composer($page->layout->name, function($view) use ($page) {
                              
@@ -190,6 +187,7 @@ class PagesController extends \BaseController {
             }
             
         });
+        
     }
 
     
