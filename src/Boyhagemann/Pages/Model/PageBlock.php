@@ -13,7 +13,9 @@ class PageBlock extends \Eloquent {
 	protected $table = 'page_blocks';
     
     public static $rules = array(
-		'title' => 'required'
+		'page_id' => 'required',
+		'zone_id' => 'required',
+		'block_id' => 'required',
 	);
     
     public function page()
@@ -29,6 +31,11 @@ class PageBlock extends \Eloquent {
     public function zone()
     {
         return $this->belongsTo('Boyhagemann\Pages\Model\Zone');
+    }
+    
+    public function getDefaults()
+    {
+        return (array) json_decode($this->defaults);
     }
     
 }

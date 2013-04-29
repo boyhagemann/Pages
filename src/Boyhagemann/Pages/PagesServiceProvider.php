@@ -26,9 +26,12 @@ class PagesServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('boyhagemann/pages');
+                    
         
-        Route::resource('cms/pages', 'Boyhagemann\Pages\Controller\PagesController');
-        Route::resource('cms/pageblocks', 'Boyhagemann\Pages\Controller\PageBlocksController');
+        Route::get('cms/pages/content/{page}', array(
+            'as'    => 'cms.pages.content',
+            'uses'  => 'Boyhagemann\Pages\Controller\PagesController@content'
+        ));
         Route::get('cms/import', array(
             'as'    => 'pages.import',
             'uses'  => 'Boyhagemann\Pages\Controller\ImportController@index'
@@ -40,8 +43,19 @@ class PagesServiceProvider extends ServiceProvider {
         Route::get('cms/import/all', array(
             'as'    => 'pages.import.all',
             'uses'  => 'Boyhagemann\Pages\Controller\ImportController@all'
-        ));
-                       
+        ));    
+        Route::get('cms/blocks/available', array(
+            'as'    => 'pages.blocks.available',
+            'uses'  => 'Boyhagemann\Pages\Controller\BlocksController@available'
+        ));                
+        
+        
+        
+        Route::resource('cms/pages', 'Boyhagemann\Pages\Controller\PagesController');
+        Route::resource('cms/blocks', 'Boyhagemann\Pages\Controller\BlocksController');
+        Route::resource('cms/pageblocks', 'Boyhagemann\Pages\Controller\PageBlocksController');
+        
+        
         // Hook into the routing cycle to dispatch a different route
         $this->prepareDispatch();
         

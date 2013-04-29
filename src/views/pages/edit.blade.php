@@ -1,7 +1,7 @@
 <h1>Edit Page</h1>
 
 <ul class="nav nav-tabs">
-    <li><a href="{{ URL::route('cms.pageblocks.edit', $page->id) }}">Content</a></li>
+    <li><a href="{{ URL::route('cms.pages.content', $page->id) }}">Content</a></li>
     <li class="active"><a href="{{ URL::route('cms.pages.edit', $page->id) }}">Properties</a></li>
 </ul>
 

@@ -2,21 +2,21 @@
 
 namespace Boyhagemann\Pages\Controller;
 
-use Boyhagemann\Pages\Model\Page as Pages;
+use Boyhagemann\Pages\Model\Block as Blocks;
 use View, Input, Redirect, Validator;
 
-class PagesController extends \BaseController {
+class BlocksController extends \BaseController {
 
     /**
-     * Pages Repository
+     * Blocks Repository
      *
-     * @var Pages
+     * @var Blocks
      */
-    protected $pages;
+    protected $blocks;
 
-    public function __construct(Pages $pages)
+    public function __construct(Blocks $blocks)
     {
-        $this->pages = $pages;
+        $this->blocks = $blocks;
     }
 
     /**
@@ -26,9 +26,21 @@ class PagesController extends \BaseController {
      */
     public function index()
     {
-        $pages = $this->pages->all();
+        $blocks = $this->blocks->all();
 
-        return View::make('pages::pages.index', compact('pages'));
+        return View::make('pages::blocks.index', compact('blocks'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function available()
+    {
+        $blocks = $this->blocks->where('available', '=', true)->get();
+
+        return View::make('pages::blocks.available', compact('blocks'));
     }
 
     /**
@@ -38,7 +50,7 @@ class PagesController extends \BaseController {
      */
     public function create()
     {
-        return View::make('pages::pages.create');
+        return View::make('pages::blocks.create');
     }
 
     /**
@@ -55,10 +67,10 @@ class PagesController extends \BaseController {
         {
             $this->pages->create($input);
 
-            return Redirect::route('cms.pages.index');
+            return Redirect::route('cms.block.index');
         }
 
-        return Redirect::route('cms.pages.create')
+        return Redirect::route('cms.block.create')
             ->withInput()
             ->withErrors($validation)
             ->with('flash', 'There were validation errors.');
@@ -72,9 +84,9 @@ class PagesController extends \BaseController {
      */
     public function show($id)
     {
-        $page = $this->pages->findOrFail($id);
+        $block = $this->blocks->findOrFail($id);
 
-        return View::make('pages::pages.show', compact('page'));
+        return View::make('pages::blocks.show', compact('block'));
     }
 
     /**
@@ -85,35 +97,14 @@ class PagesController extends \BaseController {
      */
     public function edit($id)
     {
-        $page = $this->pages->find($id);
+        $block = $this->blocks->find($id);
 
-        if (is_null($page))
+        if (is_null($block))
         {
-            return Redirect::route('cms.pages.index');
+            return Redirect::route('cms.blocks.index');
         }
         
-        return View::make('pages::pages.edit', compact('page'));
-    }
-    
-    
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function content($id)
-    {
-        $page = $this->pages->find($id);
-        $zones = $page->layout->zones;
-        $content = $page->getSortedContent();
-
-        if (is_null($page))
-        {
-            return Redirect::route('cms.pageblocks.index');
-        }
-        
-        return View::make('pages::pages.content', compact('page', 'content', 'zones'));
+        return View::make('pages::blocks.edit', compact('block'));
     }
     
     /**
@@ -125,17 +116,17 @@ class PagesController extends \BaseController {
     public function update($id)
     {
         $input = array_except(Input::all(), '_method');
-        $validation = Validator::make($input, Pages::$rules);
+        $validation = Validator::make($input, Blocks::$rules);
 
         if ($validation->passes())
         {
-            $page = $this->pages->find($id);
-            $page->update($input);
+            $block = $this->blocks->find($id);
+            $block->update($input);
 
-            return Redirect::route('cms.pages.show', $id);
+            return Redirect::route('cms.blocks.show', $id);
         }
 
-        return Redirect::route('cms.pages.edit', $id)
+        return Redirect::route('cms.blocks.edit', $id)
             ->withInput()
             ->withErrors($validation)
             ->with('flash', 'There were validation errors.');
@@ -149,9 +140,9 @@ class PagesController extends \BaseController {
      */
     public function destroy($id)
     {
-        $this->pages->find($id)->delete();
+        $this->blocks->find($id)->delete();
 
-        return Redirect::route('cms.pages.index');
+        return Redirect::route('cms.blocks.index');
     }
     
 }

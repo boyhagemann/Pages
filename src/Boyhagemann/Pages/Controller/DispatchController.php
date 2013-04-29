@@ -29,8 +29,8 @@ class DispatchController extends \BaseController {
         
         // If no page is found in the database, just dispatch the original
         // route like nothing happened.
-        if(!$page) {
-            return $this->dispatchRoute($original->getPath());
+        if(!$page) {                    
+            return $this->dispatchRoute(Request::path());
         }
         
         // Set the right layout for this page
@@ -56,7 +56,7 @@ class DispatchController extends \BaseController {
                     }
                     
                     // Dispatch the action and add the response to the right zone
-                    $this->layout->$zone .= $this->dispatchAction($pageBlock->block->action);
+                    $this->layout->$zone .= $this->dispatchAction($pageBlock->block->action, $pageBlock->getDefaults());
                 }
             }
             
@@ -74,7 +74,7 @@ class DispatchController extends \BaseController {
      */
     public function dispatchRoute($route, $method = 'GET', $params = array())
     {
-        $route = '/' . ltrim($route, '/');
+        $route = '/' . ltrim($route, '/');       
         $request = Request::create($route, $method, $params);
         return Route::dispatch($request)->getContent();
     }
@@ -88,8 +88,19 @@ class DispatchController extends \BaseController {
      */
     public function dispatchAction($action, $params = array())
     {
-        Route::get(Request::path(), $action);                
-        return $this->dispatchRoute(Request::path(), 'GET', $params);
+        $vars = array();
+        foreach($params as $key => $value) {
+            $pattern = '{' . $key . '}';
+            $vars[$pattern] = $value;
+        }
+        
+        $route = base64_encode($action) . '/' . implode('/', array_keys($vars));
+                
+        Route::get($route, $action);
+        
+        foreach($vars as $pattern => $value) {
+            $route = str_replace($pattern, $value, $route);
+        }
+        return $this->dispatchRoute('/' . $route, 'GET', $params);
     }
-
 }

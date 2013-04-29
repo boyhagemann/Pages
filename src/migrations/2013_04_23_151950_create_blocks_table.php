@@ -18,8 +18,10 @@ class CreateBlocksTable extends Migration {
             $table->string('title'); 
             $table->string('action'); 
             $table->text('defaults'); 
+            $table->tinyInteger('available');
             
             $table->index('action'); 
+            $table->index('available'); 
 			$table->timestamps();
 		});
 	}

@@ -2,7 +2,7 @@
 
 namespace Boyhagemann\Pages\Controller;
 
-use Boyhagemann\Pages\Model\Page as Pages;
+use Boyhagemann\Pages\Model\PageBlock as PageBlocks;
 use View, Input, Redirect, Validator, Route, Request;
 
 class PageBlocksController extends \BaseController {
@@ -10,33 +10,46 @@ class PageBlocksController extends \BaseController {
     /**
      * Pages Repository
      *
-     * @var Pages
+     * @var PageBlocks
      */
-    protected $pages;
+    protected $pageblocks;
 
-    public function __construct(Pages $pages)
+    public function __construct(PageBlocks $pageblocks)
     {
-        $this->pages = $pages;
+        $this->pageblocks = $pageblocks;
     }
     
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for creating a new resource.
      *
-     * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function create()
     {
-        $page = $this->pages->find($id);
-        $zones = $page->layout->zones;
-        $content = $page->getSortedContent();
+        return View::make('pages::page-blocks.create');
+    }
 
-        if (is_null($page))
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
+        $input = Input::all();
+        $validation = Validator::make($input, PageBlocks::$rules);
+
+        if ($validation->passes())
         {
-            return Redirect::route('cms.pages.index');
+            $this->pageblocks->create($input);
+
+            return Redirect::route('cms.pages.content', array($input['page_id']));
         }
-        
-        return View::make('pages::page-blocks.edit', compact('page', 'content', 'zones'));
+
+        return Redirect::route('cms.pageblocks.create')
+            ->withInput()
+            ->withErrors($validation)
+            ->with('flash', 'There were validation errors.');
     }
     
     /**
