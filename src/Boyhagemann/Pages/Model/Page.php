@@ -39,28 +39,15 @@ class Page extends \Eloquent {
             $content[$pageBlock->zone->name][] = $pageBlock;
         }
         
-        return $content;
+        // Add empty zones, this prevent the layout from throwing
+        // errors.
+        foreach($this->layout->zones as $zone) {
+            if(!isset($content[$zone->name])) {
+                $content[$zone->name] = array();
+            }
+        }
         
-//        return array(
-//            'content' => array(
-//                array(
-//                    'action' => 'Boyhagemann\Pages\Controller\PagesController@edit',
-//                    'defaults' => array(
-//                        'id' => 1,
-//                    )
-//                ),
-//            ),
-//            'sidebar' => array(
-//                array(
-//                    'action' => 'Boyhagemann\Pages\Controller\PagesController@index',
-//                    'defaults' => array(),
-//                    'view' => array(
-//                        'original' => 'pages::pages.index',
-//                        'override' => getcwd() . '/../workbench\boyhagemann/pages/src/views/pages/index/sidebar.blade.php',
-//                    ),
-//                ),
-//            )
-//        );
+        return $content;        
     }
     
 
@@ -79,10 +66,14 @@ class Page extends \Eloquent {
      */
     static public function createFromRoute($name, $route)
     {        
+        if(!$route->getOption('_uses')) {
+            return;
+        }
+        
         $page = new self();
+        $page->title = \Illuminate\Support\Str::camel($name);
         $page->name = $name;
         $page->path = $route->getPath();
-        $page->title = $route->getOption('_uses');
         $page->layout_id = 1;
         $page->save();
         

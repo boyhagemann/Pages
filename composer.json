@@ -16,7 +16,7 @@
             "src/migrations"
         ],
         "psr-0": {
-            "Boyhagemann\\Pages": "src/",
+            "Boyhagemann\\Pages": "src/"
         }
     },
     "minimum-stability": "dev"
