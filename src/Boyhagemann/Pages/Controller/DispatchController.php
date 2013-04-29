@@ -36,9 +36,13 @@ class DispatchController extends \BaseController {
         // Set the right layout for this page
         $this->layout = View::make($page->layout->name);        
                 
+        // Get the params from the original route. We don't have these yet, so
+        // we have to find them manually with the route regex
+        preg_match($original->compile()->getRegex(), '/' . Request::path(), $params);
+                    
         
         // When the layout is being rendered, add content to each zone
-        View::composer($page->layout->name, function($view) use ($page) {
+        View::composer($page->layout->name, function($view) use ($page, $params) {
                              
             foreach($page->getSortedContent() as $zone => $blocks) {
                 
@@ -56,7 +60,7 @@ class DispatchController extends \BaseController {
                     }
                     
                     // Dispatch the action and add the response to the right zone
-                    $this->layout->$zone .= $this->dispatchAction($pageBlock->block->action, $pageBlock->getDefaults());
+                    $this->layout->$zone .= $this->dispatchAction($pageBlock->block->action, $pageBlock->getDefaults() + $params);
                 }
             }
             
@@ -90,17 +94,29 @@ class DispatchController extends \BaseController {
     {
         $vars = array();
         foreach($params as $key => $value) {
+            
+            // All route params are strings, filter out the numeric ones
+            // from the preg_match
+            if(is_numeric($key)) {
+                continue;
+            }
+            
             $pattern = '{' . $key . '}';
             $vars[$pattern] = $value;
         }
         
-        $route = base64_encode($action) . '/' . implode('/', array_keys($vars));
+        $route = base64_encode($action);
+        
+        if($params) {
+            $route .= '/' . implode('/', array_keys($vars));
+        }
                 
         Route::get($route, $action);
         
         foreach($vars as $pattern => $value) {
             $route = str_replace($pattern, $value, $route);
         }
+        
         return $this->dispatchRoute('/' . $route, 'GET', $params);
     }
 }
