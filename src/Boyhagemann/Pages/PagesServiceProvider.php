@@ -27,7 +27,6 @@ class PagesServiceProvider extends ServiceProvider {
 	{
 		$this->package('boyhagemann/pages');
         
-        Route::get('dispatch-page', 'Boyhagemann\Pages\Controller\DispatchController@dispatch');
         Route::resource('cms/pages', 'Boyhagemann\Pages\Controller\PagesController');
         Route::resource('cms/pageblocks', 'Boyhagemann\Pages\Controller\PageBlocksController');
         Route::get('cms/import', array(
@@ -43,6 +42,18 @@ class PagesServiceProvider extends ServiceProvider {
             'uses'  => 'Boyhagemann\Pages\Controller\ImportController@all'
         ));
                        
+        // Hook into the routing cycle to dispatch a different route
+        $this->prepareDispatch();
+        
+	}
+
+    /**
+     * 
+     */
+    public function prepareDispatch()
+    {        
+        // Add the dispatch route
+        Route::get('dispatch-page', 'Boyhagemann\Pages\Controller\DispatchController@dispatch');
         
         // We only want to ovverride GET requests for displaying blocks.
         // Leave POST and UPDATE alone (for now)
@@ -54,7 +65,7 @@ class PagesServiceProvider extends ServiceProvider {
 
         }
         
-        
+        // Just before the new route is dispatched, add the original one to it.
         Route::before(function() {  
             
             try {
@@ -77,9 +88,10 @@ class PagesServiceProvider extends ServiceProvider {
             }
             
         });
-	}
+    }
 
-	/**
+
+    /**
 	 * Register the service provider.
 	 *
 	 * @return void
