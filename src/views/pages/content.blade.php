@@ -15,7 +15,7 @@
         <p>{{ $content->block->title }}</p>
         <small>{{ $content->block->action }}</small>
         <div class="btn-group">
-            <a href="" class="btn btn-mini btn-primary">Edit</a>
+            <a href="{{ URL::route('cms.pageblocks.edit', array($content->id)) }}" class="btn btn-mini btn-primary">Edit</a>
             <a href="" class="btn btn-mini">Remove</a>
         </div>
     </blockquote>

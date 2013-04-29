@@ -53,6 +53,24 @@ class PageBlocksController extends \BaseController {
     }
     
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $pageblock = $this->pageblocks->find($id);
+
+        if (is_null($pageblock))
+        {
+            return Redirect::route('cms.pages.index');
+        }
+        
+        return View::make('pages::page-blocks.edit', compact('pageblock'));
+    }
+    
+    /**
      * Update the specified resource in storage.
      *
      * @param  int  $id
@@ -61,17 +79,17 @@ class PageBlocksController extends \BaseController {
     public function update($id)
     {
         $input = array_except(Input::all(), '_method');
-        $validation = Validator::make($input, Pages::$rules);
+        $validation = Validator::make($input, PageBlocks::$rules);
 
         if ($validation->passes())
         {
-            $page = $this->pages->find($id);
-            $page->update($input);
+            $pageblock = $this->pageblocks->find($id);
+            $pageblock->update($input);
 
-            return Redirect::route('cms.pages.show', $id);
+            return Redirect::route('cms.pages.content', $pageblock->page->id);
         }
 
-        return Redirect::route('cms.pages.edit', $id)
+        return Redirect::route('cms.pageblocks.edit', $id)
             ->withInput()
             ->withErrors($validation)
             ->with('flash', 'There were validation errors.');

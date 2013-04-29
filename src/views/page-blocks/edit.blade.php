@@ -1,8 +1,8 @@
-<h1>Add content</h1>
+<h1>Edit Content</h1>
 
-{{ Form::open(['route' => 'cms.pageblocks.store']) }}
+{{ Form::model($pageblock, array('method' => 'PATCH', 'route' => array('cms.pageblocks.update', $pageblock->id))) }}
     <ul>
-        
+
         <li>
             {{ Form::label('page_id', 'Page:') }}
             {{ Form::text('page_id') }}
@@ -21,7 +21,7 @@
         <li>
             {{ Form::label('position', 'Position:') }}
             {{ Form::text('position') }}
-        </li>        
+        </li>
 
         <li>
             {{ Form::label('defaults', 'Defaults:') }}
@@ -29,7 +29,8 @@
         </li>
         
         <li>
-            {{ Form::submit('Submit', array('class' => 'btn')) }}
+            {{ Form::submit('Update', array('class' => 'btn btn-info')) }}
+            {{ link_to_route('cms.pages.content', 'Cancel', $pageblock->page->id, array('class' => 'btn')) }}
         </li>
     </ul>
 {{ Form::close() }}
@@ -39,5 +40,3 @@
         {{ implode('', $errors->all('<li class="error">:message</li>')) }}
     </ul>
 @endif
-
-
