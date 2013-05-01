@@ -1,4 +1,4 @@
-<h1><a href="{{ URL::route('cms.pages.index') }}">Page &raquo;</a> {{ $page->title }} </h1>
+<h1><a href="{{ URL::route('cms.pages.index') }}">Pages &raquo;</a> {{ $page->title }} </h1>
 
 <br><br>
 

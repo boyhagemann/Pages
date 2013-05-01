@@ -66,14 +66,10 @@ class Page extends \Eloquent {
      */
     static public function createFromRoute($name, $route)
     {        
-        if(!$route->getOption('_uses')) {
-            return;
-        }
-        
         $page = new self();
-        $page->title = \Illuminate\Support\Str::camel($name);
         $page->name = $name;
         $page->path = $route->getPath();
+        $page->title = self::buildTitle($name);
         $page->layout_id = 1;
         $page->save();
         
@@ -87,7 +83,24 @@ class Page extends \Eloquent {
         $pageBlock->page_id = $page->id;
         $pageBlock->zone_id = 1;
         $pageBlock->save();
-        
+                
         return $page;
+    }
+    
+    static public function buildTitle($name)
+    {
+        preg_match_all('/(\w)+/', $name, $matches);
+        
+        $words = array();
+        foreach($matches[0] as $word) {
+            $words[] = ucfirst($word);
+        }
+        
+        $title = implode(' ', $words);
+        
+        if(!$title) {
+            $title = '--Page title--';
+        }
+        return $title;
     }
 }
