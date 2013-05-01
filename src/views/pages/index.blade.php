@@ -1,10 +1,10 @@
-<h1>All Pages</h1>
-
-<p>
-    {{ link_to_route('cms.pages.create', 'Add new page') }} | 
-    {{ link_to_route('pages.import', 'Import') }}
-
-</p>
+<div class="btn-group-hover">
+    <h1>Pages</h1>
+    <div class="btn-group">
+        <a href="{{ URL::route('cms.pages.create') }}" class="btn">Add new page</a>
+        <a href="{{ URL::route('pages.import') }}" class="btn">Import</a>
+    </div>
+</div>
 
 @if ($pages->count())
     <table class="table table-striped table-bordered">
@@ -20,16 +20,13 @@
         <tbody>
             @foreach ($pages as $page)
                 <tr>
-					<td>{{ $page->title }}</td>
-                    <td>{{ $page->name }}</td>
-					<td>{{ $page->path }}</td>
-					<td>{{ $page->layout->title }}</td>
-                    <td>{{ link_to_route('cms.pages.content', 'Content', array($page->id), array('class' => 'btn btn-info btn-small')) }}</td>
-                    <td>{{ link_to_route('cms.pages.edit', 'Properties', array($page->id), array('class' => 'btn btn-info btn-small')) }}</td>
-                    <td>
-                        {{ Form::open(array('method' => 'DELETE', 'route' => array('cms.pages.destroy', $page->id))) }}
-                            {{ Form::submit('Delete', array('class' => 'btn btn-danger btn-small')) }}
-                        {{ Form::close() }}
+					<td class="nowrap">{{ $page->title }}</td>
+					<td class="nowrap">{{ $page->path }}</td>
+					<td class="nowrap">{{ $page->layout->title }}</td>
+                    <td class="nowrap">
+                        <a href="{{ URL::route('cms.pages.content', array($page->id)) }}" class="btn btn-mini"><i class="icon-list-alt"></i> Content</a>
+                        <a href="{{ URL::route('cms.pages.edit', array($page->id)) }}" class="btn btn-mini"><i class="icon-pencil"></i> Properties</a>
+                        <a href="{{ URL::route('cms.pages.delete', array($page->id)) }}" class="btn btn-mini"><i class="icon-trash"></i> Delete</a>
                     </td>
                 </tr>
             @endforeach

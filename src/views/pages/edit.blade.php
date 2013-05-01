@@ -1,8 +1,12 @@
-<h1>Edit Page</h1>
+<h1><a href="{{ URL::route('cms.pages.index') }}">Page &raquo;</a> {{ $page->title }} </h1>
+
+<br><br>
+
 
 <ul class="nav nav-tabs">
-    <li><a href="{{ URL::route('cms.pages.content', $page->id) }}">Content</a></li>
-    <li class="active"><a href="{{ URL::route('cms.pages.edit', $page->id) }}">Properties</a></li>
+    <li><a href="{{ URL::route('cms.pages.content', $page->id) }}"><i class="icon-th-list"></i> Content</a></li>
+    <li class="active"><a href="{{ URL::route('cms.pages.edit', $page->id) }}"><i class="icon-wrench"></i> Properties</a></li>
+    <li><a href="{{ URL::route('cms.pages.delete', $page->id) }}"><i class="icon-trash"></i> Delete</a></li>
 </ul>
 
 {{ Form::model($page, array('method' => 'PATCH', 'route' => array('cms.pages.update', $page->id))) }}

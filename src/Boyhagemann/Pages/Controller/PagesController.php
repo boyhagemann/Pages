@@ -142,6 +142,19 @@ class PagesController extends \BaseController {
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function delete($id)
+    {
+        $page = $this->pages->findOrFail($id);
+
+        return View::make('pages::pages.delete', compact('page'));
+    }
+    
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -151,7 +164,7 @@ class PagesController extends \BaseController {
     {
         $this->pages->find($id)->delete();
 
-        return Redirect::route('cms.pages.index');
+        return Redirect::route('cms.pages.index')->with('success', 'Page deleted!');
     }
     
 }

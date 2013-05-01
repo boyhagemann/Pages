@@ -30,24 +30,24 @@ class Page extends \Eloquent {
     }
 
     
-
+    /**
+     * 
+     * @return array
+     */
     public function getSortedContent()
     {        
+        $pageBlocks = PageBlock::where('page_id', '=', $this->id)->orWhere('global', '=', true)->get();
         $content = array();
         
-        foreach($this->content as $pageBlock) {
+        foreach($this->layout->zones as $zone) {
+            $content[$zone->name] = array();
+        }
+                
+        foreach($pageBlocks as $pageBlock) {
             $content[$pageBlock->zone->name][] = $pageBlock;
         }
         
-        // Add empty zones, this prevent the layout from throwing
-        // errors.
-        foreach($this->layout->zones as $zone) {
-            if(!isset($content[$zone->name])) {
-                $content[$zone->name] = array();
-            }
-        }
-        
-        return $content;        
+        return $content;
     }
     
 

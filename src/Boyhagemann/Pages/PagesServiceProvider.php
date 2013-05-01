@@ -32,6 +32,10 @@ class PagesServiceProvider extends ServiceProvider {
             'as'    => 'cms.pages.content',
             'uses'  => 'Boyhagemann\Pages\Controller\PagesController@content'
         ));
+        Route::get('cms/pages/{page}/delete', array(
+            'as'    => 'cms.pages.delete',
+            'uses'  => 'Boyhagemann\Pages\Controller\PagesController@delete'
+        ));
         Route::get('cms/import', array(
             'as'    => 'pages.import',
             'uses'  => 'Boyhagemann\Pages\Controller\ImportController@index'
