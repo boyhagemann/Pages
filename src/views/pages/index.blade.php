@@ -11,9 +11,9 @@
         <thead>
             <tr>
 				<th>Title</th>
-                <th>Name</th>
 				<th>Path</th>
 				<th>Layout</th>
+				<th></th>
             </tr>
         </thead>
 
