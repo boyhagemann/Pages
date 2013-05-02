@@ -66,6 +66,10 @@ class Page extends \Eloquent {
      */
     static public function createFromRoute($name, $route)
     {        
+        if(!$route->getOption('_uses')) {
+            return;
+        }
+        
         $page = new self();
         $page->name = $name;
         $page->path = $route->getPath();
