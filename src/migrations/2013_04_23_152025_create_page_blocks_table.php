@@ -18,8 +18,10 @@ class CreatePageBlocksTable extends Migration {
             $table->integer('block_id');
             $table->integer('position');
             $table->text('defaults');
+            $table->tinyInteger('global');
 
             $table->unique(array('page_id', 'zone_id', 'block_id', 'position'));
+            $table->index('global');
             $table->timestamps();
         });
     }
