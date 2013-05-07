@@ -51,14 +51,23 @@ class PagesServiceProvider extends ServiceProvider {
         Route::get('cms/blocks/available', array(
             'as'    => 'pages.blocks.available',
             'uses'  => 'Boyhagemann\Pages\Controller\BlocksController@available'
-        ));                
+        ));                    
         
         
         
         Route::resource('cms/pages', 'Boyhagemann\Pages\Controller\PagesController');
         Route::resource('cms/blocks', 'Boyhagemann\Pages\Controller\BlocksController');
         Route::resource('cms/pageblocks', 'Boyhagemann\Pages\Controller\PageBlocksController');
-        
+                 
+        Route::get('cms/pageblocks/create/{page}/{zone}/{position}', array(
+            'as'    => 'cms.pageblocks.create',
+            'uses'  => 'Boyhagemann\Pages\Controller\BlocksController@available',
+            'defaults' => array(
+                'page'      => '',
+                'zone'      => '',
+                'position'  => '',
+            )
+        ));   
         
         // Hook into the routing cycle to dispatch a different route
         $this->prepareDispatch();

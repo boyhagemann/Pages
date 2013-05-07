@@ -22,11 +22,14 @@ class PageBlocksController extends \BaseController {
     /**
      * Show the form for creating a new resource.
      *
+     * @param $page
+     * @param $zone
+     * @param $position
      * @return Response
      */
-    public function create()
+    public function create($page, $zone, $position)
     {
-        return View::make('pages::page-blocks.create');
+        return View::make('pages::page-blocks.create', compact('page', 'zone', 'position'));
     }
 
     /**

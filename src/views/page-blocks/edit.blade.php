@@ -15,7 +15,11 @@
 
         <li>
             {{ Form::label('block_id', 'Block:') }}
-            {{ Form::modelSelect('block_id', 'Boyhagemann\Pages\Model\Block') }}
+            {{ Form::modelSelect('block_id', 'Boyhagemann\Pages\Model\Block', array(
+                'query' => function($q) {
+                    $q->where('available', '=', true);
+                }
+            )) }}
         </li>
 
         <li>
