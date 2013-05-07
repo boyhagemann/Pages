@@ -8,7 +8,7 @@
 <ul class="">
 @foreach ($blocks as $block)
     <li>
-        <a href="">{{ $blocks->title }}</a>
+        <a href="">{{ $block->title }}</a>
     </li>
 @endforeach
 </ul>

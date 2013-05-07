@@ -3,15 +3,8 @@
 {{ Form::model($pageblock, array('method' => 'PATCH', 'route' => array('cms.pageblocks.update', $pageblock->id))) }}
     <ul>
 
-        <li>
-            {{ Form::label('page_id', 'Page:') }}
-            {{ Form::modelSelect('page_id', 'Boyhagemann\Pages\Model\Page') }}
-        </li>
-
-        <li>
-            {{ Form::label('zone_id', 'Zone:') }}
-            {{ Form::modelSelect('zone_id', 'Boyhagemann\Pages\Model\Zone') }}
-        </li>
+        {{ Form::hidden('page_id') }}
+        {{ Form::hidden('zone_id') }}
 
         <li>
             {{ Form::label('block_id', 'Block:') }}
@@ -21,11 +14,6 @@
                 }
             )) }}
         </li>
-
-        <li>
-            {{ Form::label('position', 'Position:') }}
-            {{ Form::text('position') }}
-        </li>        
 
         <li>
             {{ Form::label('defaults', 'Defaults:') }}

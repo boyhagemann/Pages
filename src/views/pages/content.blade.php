@@ -13,7 +13,7 @@
 <section class="btn-group-hover">
     <h3>{{ $zone->title }}</h3>   
     <div class="btn-group">
-        <a href="{{ URL::route('cms.pageblocks.create') }}" class="btn"><i class="icon-plus"></i> Add content</a>
+        <a href="{{ URL::route('cms.pageblocks.create', array($page->id, $zone->id, count($content[$zone->name]))) }}" class="btn"><i class="icon-plus"></i> Add content</a>
     </div> 
 </section>
 <section class="zone">
