@@ -29,7 +29,7 @@
 
         <li>
             {{ Form::label('layout_id', 'Layout:') }}
-            {{ Form::text('layout_id') }}
+            {{ Form::modelSelect('layout_id', 'Boyhagemann\Pages\Model\Layout') }}
         </li>
 
         <li>

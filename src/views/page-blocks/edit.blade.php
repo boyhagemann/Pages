@@ -5,23 +5,23 @@
 
         <li>
             {{ Form::label('page_id', 'Page:') }}
-            {{ Form::text('page_id') }}
+            {{ Form::modelSelect('page_id', 'Boyhagemann\Pages\Model\Page') }}
         </li>
 
         <li>
             {{ Form::label('zone_id', 'Zone:') }}
-            {{ Form::text('zone_id') }}
+            {{ Form::modelSelect('zone_id', 'Boyhagemann\Pages\Model\Zone') }}
         </li>
 
         <li>
             {{ Form::label('block_id', 'Block:') }}
-            {{ Form::text('block_id') }}
+            {{ Form::modelSelect('block_id', 'Boyhagemann\Pages\Model\Block') }}
         </li>
 
         <li>
             {{ Form::label('position', 'Position:') }}
             {{ Form::text('position') }}
-        </li>
+        </li>        
 
         <li>
             {{ Form::label('defaults', 'Defaults:') }}

@@ -18,8 +18,8 @@
         </li>
 
         <li>
-            {{ Form::label('layout', 'Layout:') }}
-            {{ Form::text('layout') }}
+            {{ Form::label('layout_id', 'Layout:') }}
+            {{ Form::modelSelect('layout_id', 'Boyhagemann\Pages\Model\Layout') }}
         </li>
         
         <li>
