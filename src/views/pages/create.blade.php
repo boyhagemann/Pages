@@ -1,4 +1,12 @@
-<h1>Create Page</h1>
+<h1>Pages</h1>
+
+<br><br>
+
+<ul class="nav nav-tabs">
+    <li><a href="{{ URL::route('cms.pages.index') }}"><i class="icon-th-list"></i> Overview</a></li>
+    <li class="active"><a href="{{ URL::route('cms.pages.create') }}"><i class="icon-plus-sign"></i> Create new page</a></li>
+    <li><a href="{{ URL::route('pages.import') }}"><i class="icon-download-alt"></i> Import pages</a></li>
+</ul>
 
 {{ Form::open(['route' => 'cms.pages.store']) }}
     <ul>

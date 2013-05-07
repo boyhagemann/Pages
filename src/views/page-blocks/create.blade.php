@@ -30,7 +30,7 @@
             )) }}
         </li>
 
-        @if($position)
+        @if($position !== '')
         {{ Form::hidden('position', $position) }}
         @else
         <li>

@@ -13,5 +13,5 @@
 
 {{ Form::open(array('method' => 'DELETE', 'route' => array('cms.pages.destroy', $page->id))) }}
     {{ Form::submit('Yes, delete this page', array('class' => 'btn btn-danger')) }}
-    <a href="{{ URL::route('cms.pages.index') }}" class="btn">No, cancel</a>
+    <a href="{{ URL::route('cms.pages.content', $page->id) }}" class="btn">No, cancel</a>
 {{ Form::close() }}

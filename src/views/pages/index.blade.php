@@ -1,10 +1,12 @@
-<div class="btn-group-hover">
-    <h1>Pages</h1>
-    <div class="btn-group">
-        <a href="{{ URL::route('cms.pages.create') }}" class="btn">Add new page</a>
-        <a href="{{ URL::route('pages.import') }}" class="btn">Import</a>
-    </div>
-</div>
+<h1>Pages</h1>
+
+<br><br>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="{{ URL::route('cms.pages.index') }}"><i class="icon-th-list"></i> Overview</a></li>
+    <li><a href="{{ URL::route('cms.pages.create') }}"><i class="icon-plus-sign"></i> Create new page</a></li>
+    <li><a href="{{ URL::route('pages.import') }}"><i class="icon-download-alt"></i> Import pages</a></li>
+</ul>
 
 @if ($pages->count())
     <table class="table table-striped table-bordered">
