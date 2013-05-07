@@ -1,8 +1,12 @@
-<h1>All blocks</h1>
+<h1>Blocks</h1>
 
-<p>
-    {{ link_to_route('cms.blocks.create', 'Add new block') }} | 
-</p>
+<br><br>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="{{ URL::route('cms.blocks.index') }}"><i class="icon-th-list"></i> Overview</a></li>
+    <li><a href="{{ URL::route('cms.blocks.create') }}"><i class="icon-plus-sign"></i> Create new block</a></li>
+    <li><a href=""><i class="icon-download-alt"></i> Import blocks</a></li>
+</ul>
 
 @if ($blocks->count())
     <table class="table table-striped table-bordered">

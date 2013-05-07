@@ -61,16 +61,16 @@ class BlocksController extends \BaseController {
     public function store()
     {
         $input = Input::all();
-        $validation = Validator::make($input, Pages::$rules);
+        $validation = Validator::make($input, Blocks::$rules);
 
         if ($validation->passes())
         {
-            $this->pages->create($input);
+            $this->blocks->create($input);
 
-            return Redirect::route('cms.block.index');
+            return Redirect::route('cms.blocks.index');
         }
 
-        return Redirect::route('cms.block.create')
+        return Redirect::route('cms.blocks.create')
             ->withInput()
             ->withErrors($validation)
             ->with('flash', 'There were validation errors.');

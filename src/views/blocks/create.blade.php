@@ -1,25 +1,35 @@
-<h1>Create Page</h1>
+<h1>Blocks</h1>
 
-{{ Form::open(['route' => 'cms.pages.store']) }}
+<br><br>
+
+<ul class="nav nav-tabs">
+    <li><a href="{{ URL::route('cms.blocks.index') }}"><i class="icon-th-list"></i> Overview</a></li>
+    <li class="active"><a href="{{ URL::route('cms.blocks.create') }}"><i class="icon-plus-sign"></i> Create new block</a></li>
+    <li><a href=""><i class="icon-download-alt"></i> Import blocks</a></li>
+</ul>
+
+
+{{ Form::open(['route' => 'cms.blocks.store']) }}
     <ul>
-        <li>
-            {{ Form::label('name', 'Name:') }}
-            {{ Form::text('name') }}
-        </li>
-
-        <li>
-            {{ Form::label('path', 'Path:') }}
-            {{ Form::text('path') }}
-        </li>
 
         <li>
             {{ Form::label('title', 'Title:') }}
             {{ Form::text('title') }}
         </li>
+        
+        <li>
+            {{ Form::label('action', 'Uses:') }}
+            {{ Form::text('action') }}
+        </li>
 
         <li>
-            {{ Form::label('layout', 'Layout:') }}
-            {{ Form::text('layout') }}
+            {{ Form::label('available', 'Available:') }}
+            {{ Form::checkbox('available') }}
+        </li>
+        
+        <li>
+            {{ Form::label('defaults', 'Defaults:') }}
+            {{ Form::textarea('defaults') }}
         </li>
         
         <li>
