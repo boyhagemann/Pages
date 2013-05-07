@@ -68,6 +68,10 @@ class PagesServiceProvider extends ServiceProvider {
                 'position'  => '',
             )
         ));   
+        Route::get('cms/pageblocks/{pageblock}/delete', array(
+            'as'    => 'cms.pageblocks.delete',
+            'uses'  => 'Boyhagemann\Pages\Controller\PageBlocksController@delete'
+        ));
         
         // Hook into the routing cycle to dispatch a different route
         $this->prepareDispatch();

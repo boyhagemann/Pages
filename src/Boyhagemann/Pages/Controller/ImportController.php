@@ -38,11 +38,11 @@ class ImportController extends \BaseController {
     public function page()
     {
         $name = Input::input('name');        
-        $route = Route::getRoutes()->get($name);
+        $route = Route::getRoutes()->get($name);        
+        $page = Pages::createFromRoute($name, $route);
         
-        Pages::createFromRoute($name, $route);
-        
-        return Redirect::route('pages.import')->with('success', 'Page imported');
+        return Redirect::route('cms.pages.content', array('page' => $page->id))
+                ->with('success', 'Page imported!');
     }
 
     /**

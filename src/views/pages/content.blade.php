@@ -24,8 +24,8 @@
         <p>{{ $pageblock->block->title }}</p>
         <small>{{ $pageblock->block->action }}</small>
         <div class="btn-group">
-            <a href="{{ URL::route('cms.pageblocks.edit', array($pageblock->id)) }}" class="btn btn-mini btn-primary"><i class="icon-pencil"></i> Edit</a>
-            <a href="" class="btn btn-mini"><i class="icon-trash"></i> Remove</a>
+            <a href="{{ URL::route('cms.pageblocks.edit', $pageblock->id) }}" class="btn btn-mini btn-primary"><i class="icon-pencil"></i> Edit</a>
+            <a href="{{ URL::route('cms.pageblocks.delete', $pageblock->id) }}" class="btn btn-mini"><i class="icon-trash"></i> Remove</a>
         </div>
     </blockquote>
     @endforeach

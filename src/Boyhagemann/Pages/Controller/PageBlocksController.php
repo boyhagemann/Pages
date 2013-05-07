@@ -29,7 +29,8 @@ class PageBlocksController extends \BaseController {
      */
     public function create($page, $zone, $position)
     {
-        return View::make('pages::page-blocks.create', compact('page', 'zone', 'position'));
+        return View::make('pages::page-blocks.create', compact('page', 'zone', 'position'))
+                    ->with('success', 'Added the block to the page!');
     }
 
     /**
@@ -99,6 +100,20 @@ class PageBlocksController extends \BaseController {
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function delete($id)
+    {
+        $pageblock = $this->pageblocks->findOrFail($id);
+        $page = $pageblock->page;
+
+        return View::make('pages::page-blocks.delete', compact('pageblock', 'page'));
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -106,9 +121,11 @@ class PageBlocksController extends \BaseController {
      */
     public function destroy($id)
     {
-        $this->pages->find($id)->delete();
+        $pageblock = $this->pageblocks->find($id);
+        $page = $pageblock->page;
+        $pageblock->delete();
 
-        return Redirect::route('cms.pages.index');
+        return Redirect::route('cms.pages.content', $page->id)->with('success', 'Block removed from page!');
     }
     
 }
