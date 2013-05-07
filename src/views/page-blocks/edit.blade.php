@@ -21,6 +21,11 @@
         </li>
         
         <li>
+            {{ Form::label('global', 'Is this content visible on all pages?') }}
+            {{ Form::checkbox('global') }}
+        </li>
+        
+        <li>
             {{ Form::submit('Update', array('class' => 'btn btn-info')) }}
             {{ link_to_route('cms.pages.content', 'Cancel', $pageblock->page->id, array('class' => 'btn')) }}
         </li>

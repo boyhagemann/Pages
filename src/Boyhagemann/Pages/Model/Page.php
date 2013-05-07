@@ -4,6 +4,7 @@ namespace Boyhagemann\Pages\Model;
 
 use Boyhagemann\Pages\Model\Block;
 use Boyhagemann\Pages\Model\PageBlock;
+use Event;
 
 class Page extends \Eloquent {
     protected $guarded = array();
@@ -27,6 +28,11 @@ class Page extends \Eloquent {
     public function content()
     {
         return $this->hasMany('Boyhagemann\Pages\Model\PageBlock');
+    }
+    
+    public function navigation()
+    {
+        return $this->hasMany('Boyhagemann\Navigation\Model\Navigation');
     }
 
     
@@ -73,7 +79,7 @@ class Page extends \Eloquent {
         $page = new self();
         $page->name = $name;
         $page->path = $route->getPath();
-        $page->title = self::buildTitle($name);
+        $page->title = self::buildTitle($route->getOption('_uses'));
         $page->layout_id = 1;
         $page->save();
         
@@ -87,24 +93,30 @@ class Page extends \Eloquent {
         $pageBlock->page_id = $page->id;
         $pageBlock->zone_id = 1;
         $pageBlock->save();
-                
+                        
+        // Trigger an event for other packages to hook in to.
+        Event::fire('pages.import.page', compact('page'));
+        
         return $page;
     }
     
     static public function buildTitle($name)
     {
-        preg_match_all('/(\w)+/', $name, $matches);
-        
-        $words = array();
-        foreach($matches[0] as $word) {
-            $words[] = ucfirst($word);
+        if(strstr($name, '@')) {
+            $title = substr($name, strrpos($name, '@') + 1);
+            
+            if($title == 'index') {
+                $title = substr($name, strrpos($name, '\\') + 1);
+                $title = str_replace(array('Controller', '@index'), '', $title);
+            }
+            else {
+                $title = ucfirst(\Str::snake($title, ' '));
+            }
         }
-        
-        $title = implode(' ', $words);
-        
-        if(!$title) {
+        else {
             $title = '--Page title--';
         }
+        
         return $title;
     }
 }

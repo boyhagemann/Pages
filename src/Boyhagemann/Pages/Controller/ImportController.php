@@ -3,7 +3,7 @@
 namespace Boyhagemann\Pages\Controller;
 
 use Boyhagemann\Pages\Model\Page as Pages;
-use View, Input, Redirect, Route;
+use View, Input, Redirect, Route, Event;
 
 class ImportController extends \BaseController {
 
@@ -57,7 +57,7 @@ class ImportController extends \BaseController {
             Pages::createFromRoute($name, $route);
         }
         
-        return Redirect::route('pages.import')->with('success', 'All pages imported');
+        return Redirect::route('cms.pages.index')->with('success', 'All pages imported');
     }
 
     /**

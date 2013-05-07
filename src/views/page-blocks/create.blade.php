@@ -40,6 +40,11 @@
         @endif
 
         <li>
+            {{ Form::label('global', 'Is this content visible on all pages?') }}
+            {{ Form::checkbox('global') }}
+        </li>
+
+        <li>
             {{ Form::label('defaults', 'Defaults:') }}
             {{ Form::textarea('defaults') }}
         </li>

@@ -61,7 +61,7 @@ class PagesServiceProvider extends ServiceProvider {
                  
         Route::get('cms/pageblocks/create/{page}/{zone}/{position}', array(
             'as'    => 'cms.pageblocks.create',
-            'uses'  => 'Boyhagemann\Pages\Controller\BlocksController@available',
+            'uses'  => 'Boyhagemann\Pages\Controller\PageBlocksController@create',
             'defaults' => array(
                 'page'      => '',
                 'zone'      => '',
