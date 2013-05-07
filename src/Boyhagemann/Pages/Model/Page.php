@@ -76,6 +76,11 @@ class Page extends \Eloquent {
             return;
         }
         
+        // This causes double pages
+        if(strpos($name, 'patch ') === 0) {
+            return;
+        }
+        
         $page = new self();
         $page->name = $name;
         $page->path = $route->getPath();
