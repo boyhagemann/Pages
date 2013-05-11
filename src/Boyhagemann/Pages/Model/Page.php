@@ -85,7 +85,7 @@ class Page extends \Eloquent {
         $page->name = $name;
         $page->path = $route->getPath();
         $page->title = self::buildTitle($route->getOption('_uses'));
-        $page->layout_id = 1;
+        $page->layout_id = 2; // default.layout
         $page->save();
         
         $block = new Block;
