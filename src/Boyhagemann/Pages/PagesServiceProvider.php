@@ -3,6 +3,7 @@
 namespace Boyhagemann\Pages;
 
 use Illuminate\Support\ServiceProvider;
+use Route;
 
 class PagesServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,25 @@ class PagesServiceProvider extends ServiceProvider
     public function register()
     {
         $this->package('pages', 'pages');
+        
+        $this->app->register('Boyhagemann\Crud\CrudServiceProvider');
+        $this->app->register('Boyhagemann\Blocks\BlocksServiceProvider');
+    }
+    
+    public function boot()
+    {
+        Route::model('page', 'Pages\Page');
+        
+        Route::get('admin/pages/{page}/content', array(
+            'uses'  => 'Boyhagemann\Pages\Controller\ContentController@indexWithPage',
+            'as'    => 'admin.content'
+        ));
+        
+        Route::resource('admin/layouts', 'Boyhagemann\Pages\Controller\LayoutController');
+        Route::resource('admin/pages', 'Boyhagemann\Pages\Controller\PageController');
+        Route::resource('admin/blocks', 'Boyhagemann\Pages\Controller\BlockController');
+        Route::resource('admin/sections', 'Boyhagemann\Pages\Controller\SectionController');
+        Route::resource('admin/content', 'Boyhagemann\Pages\Controller\ContentController', array('excep' => array('index')));
     }
 
     /**
