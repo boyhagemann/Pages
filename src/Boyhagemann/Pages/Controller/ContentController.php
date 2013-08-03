@@ -21,9 +21,9 @@ class ContentController extends CrudController
      */
     public function buildForm(FormBuilder $fb)
     {
-        $fb->modelSelect('page_id')->label('Page')->model('Pages\Page');
-        $fb->modelSelect('section_id')->label('Section')->model('Pages\Section');
-        $fb->modelSelect('block_id')->label('Block')->model('Pages\Block');
+        $fb->modelSelect('page_id')->alias('page')->label('Page')->model('Pages\Page');
+        $fb->modelSelect('section_id')->alias('section')->label('Section')->model('Pages\Section');
+        $fb->modelSelect('block_id')->alias('block')->label('Block')->model('Pages\Block');
     }
 
     /**

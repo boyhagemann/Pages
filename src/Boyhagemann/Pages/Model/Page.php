@@ -16,7 +16,7 @@ class Page extends \Eloquent implements PresentableInterface
 
     protected $fillable = array(
         'title',
-        'url',
+        'route',
         'layout_id'
         );
 
@@ -36,9 +36,12 @@ class Page extends \Eloquent implements PresentableInterface
         return $this->belongsTo('Pages\Layout');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function content()
     {
-        return $this->hasMany('Pages\Content');
+        return $this->hasMany('Pages\Content', 'page_id');
     }
 
     public function getBlocks()
@@ -51,12 +54,13 @@ class Page extends \Eloquent implements PresentableInterface
             );
             
             foreach($page->content as $content) {
+
                 $section = $content->section->name;
                 $controller = $content->block->controller;
                 $config['sections'][$section][]['controller'] = $controller;
             }
             
-            $blocks[$page->url] = $config;
+            $blocks[$page->route] = $config;
         }
         
         return $blocks;

@@ -25,6 +25,7 @@ class LayoutController extends CrudController
     public function buildModel(ModelBuilder $mb)
     {
         $mb->name('Pages\Layout')->table('layouts');
+        $mb->hasMany('Pages\Section')->alias('sections');
     }
 
     /**
@@ -38,3 +39,4 @@ class LayoutController extends CrudController
 
 }
 
+//

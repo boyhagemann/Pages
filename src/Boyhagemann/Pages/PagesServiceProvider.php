@@ -21,16 +21,16 @@ class PagesServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register('Boyhagemann\Crud\CrudServiceProvider');
-        $this->app->register('Boyhagemann\Blocks\BlocksServiceProvider');
-        
         $this->package('pages', 'pages');
+        
+        $this->app->register('Boyhagemann\Crud\CrudServiceProvider');
+        $this->app->register('Boyhagemann\Blocks\BlocksServiceProvider');        
     }
     
     public function boot()
     {        
         Route::model('page', 'Pages\Page');
-        
+                
         Route::get('admin/pages/{page}/content', array(
             'uses'  => 'Boyhagemann\Pages\Controller\ContentController@indexWithPage',
             'as'    => 'admin.content'
