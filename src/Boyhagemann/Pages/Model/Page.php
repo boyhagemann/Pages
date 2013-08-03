@@ -41,28 +41,42 @@ class Page extends \Eloquent implements PresentableInterface
      */
     public function content()
     {
-        return $this->hasMany('Pages\Content', 'page_id');
+        return $this->hasMany('Pages\Content');
     }
 
     public function getBlocks()
-    {
+    {        
+        
+        $q = \Pages\Content::with(array('page', 'page.layout', 'section', 'block'));
+        
         $blocks = array();
-        foreach($this->with(array('layout', 'content', 'content.section'))->get() as $page) {
-            
-            $config = array(
-                'layout' => $page->layout->name,
-            );
-            
-            foreach($page->content as $content) {
-
-                $section = $content->section->name;
-                $controller = $content->block->controller;
+        $globals = array();
+        
+        foreach($q->get() as $content) {
+                                                
+            $section = $content->section->name;
+            $controller = $content->block->controller;
+                
+            if($content->global == 1) {
                 $config['sections'][$section][]['controller'] = $controller;
+                $globals[] = $config;
             }
-            
-            $blocks[$page->route] = $config;
+            else {
+                $config = array(
+                    'layout' => $content->page->layout->name,
+                );
+                $config['sections'][$section][]['controller'] = $controller;
+                $blocks[$content->page->route] = $config;
+            }
         }
         
+        foreach($blocks as $route => &$config) {
+            foreach($globals as $global) {
+                $config = array_merge_recursive($config, $global);
+            }
+        }
+        
+//        var_dump($blocks); exit;
         return $blocks;
     }
 }

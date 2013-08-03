@@ -24,6 +24,7 @@ class ContentController extends CrudController
         $fb->modelSelect('page_id')->alias('page')->label('Page')->model('Pages\Page');
         $fb->modelSelect('section_id')->alias('section')->label('Section')->model('Pages\Section');
         $fb->modelSelect('block_id')->alias('block')->label('Block')->model('Pages\Block');
+        $fb->checkbox('global')->label('Is globally available?');
     }
 
     /**
@@ -32,6 +33,7 @@ class ContentController extends CrudController
     public function buildModel(ModelBuilder $mb)
     {
         $mb->name('Pages\Content')->table('content');
+        $mb->getBlueprint()->integer('global')->nullable();
     }
 
     /**
@@ -39,7 +41,7 @@ class ContentController extends CrudController
      */
     public function buildOverview(OverviewBuilder $ob)
     {
-        $ob->fields(array('page_id', 'section_id', 'block_id'));
+        $ob->fields(array('page_id', 'section_id', 'block_id', 'global'));
     }
 
 
