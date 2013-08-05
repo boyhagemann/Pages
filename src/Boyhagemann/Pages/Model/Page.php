@@ -52,31 +52,33 @@ class Page extends \Eloquent implements PresentableInterface
         $blocks = array();
         $globals = array();
         
-        foreach($q->get() as $content) {
-                                                
+        foreach($q->get() as $content) {      
+                                    
+	    $config = array();
             $section = $content->section->name;
             $controller = $content->block->controller;
                 
             if($content->global == 1) {
+        
                 $config['sections'][$section][]['controller'] = $controller;
                 $globals[] = $config;
             }
             else {
                 $config = array(
                     'layout' => $content->page->layout->name,
-                );
+                );  
                 $config['sections'][$section][]['controller'] = $controller;
                 $blocks[$content->page->route] = $config;
             }
         }
-        
+
         foreach($blocks as $route => &$config) {
             foreach($globals as $global) {
                 $config = array_merge_recursive($config, $global);
             }
         }
         
-//        var_dump($blocks); exit;
+        //var_dump($blocks); exit;
         return $blocks;
     }
 }
