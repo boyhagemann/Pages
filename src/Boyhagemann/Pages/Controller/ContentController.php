@@ -33,7 +33,6 @@ class ContentController extends CrudController
     public function buildModel(ModelBuilder $mb)
     {
         $mb->name('Pages\Content')->table('content');
-        $mb->getBlueprint()->integer('global')->nullable();
     }
 
     /**

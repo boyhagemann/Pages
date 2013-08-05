@@ -29,7 +29,7 @@ class PagesServiceProvider extends ServiceProvider
     
     public function boot()
     {        
-	Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks());
+	Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks()); 
 
         Route::model('page', 'Pages\Page');
                 
