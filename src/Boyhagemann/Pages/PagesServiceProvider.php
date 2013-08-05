@@ -3,7 +3,7 @@
 namespace Boyhagemann\Pages;
 
 use Illuminate\Support\ServiceProvider;
-use Route;
+use Route, App, Config;
 
 class PagesServiceProvider extends ServiceProvider
 {
@@ -29,6 +29,8 @@ class PagesServiceProvider extends ServiceProvider
     
     public function boot()
     {        
+	Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks());
+
         Route::model('page', 'Pages\Page');
                 
         Route::get('admin/pages/{page}/content', array(
