@@ -21,9 +21,9 @@ class ContentController extends CrudController
      */
     public function buildForm(FormBuilder $fb)
     {
-        $fb->modelSelect('page_id')->alias('page')->label('Page')->model('Pages\Page');
-        $fb->modelSelect('section_id')->alias('section')->label('Section')->model('Pages\Section');
-        $fb->modelSelect('block_id')->alias('block')->label('Block')->model('Pages\Block');
+        $fb->modelSelect('page_id')->alias('page')->label('Page')->model('Boyhagemann\Pages\Model\Page');
+        $fb->modelSelect('section_id')->alias('section')->label('Section')->model('Boyhagemann\Pages\Model\Section');
+        $fb->modelSelect('block_id')->alias('block')->label('Block')->model('Boyhagemann\Pages\Model\Block');
         $fb->checkbox('global')->label('Is globally available?');
     }
 
@@ -32,7 +32,7 @@ class ContentController extends CrudController
      */
     public function buildModel(ModelBuilder $mb)
     {
-        $mb->name('Pages\Content')->table('content');
+        $mb->name('Boyhagemann\Pages\Model\Content')->table('content');
     }
 
     /**

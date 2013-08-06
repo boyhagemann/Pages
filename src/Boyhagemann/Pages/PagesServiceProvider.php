@@ -3,7 +3,7 @@
 namespace Boyhagemann\Pages;
 
 use Illuminate\Support\ServiceProvider;
-use Route, App, Config;
+use Route, App, Config, Schema;
 
 class PagesServiceProvider extends ServiceProvider
 {
@@ -29,7 +29,11 @@ class PagesServiceProvider extends ServiceProvider
     
     public function boot()
     {        
-	Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks()); 
+	Config::set('blocks', array());
+
+	if(Schema::hasTable('pages')) {
+	    //Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks()); 
+	}
 
         Route::model('page', 'Pages\Page');
                 

@@ -19,10 +19,10 @@ class PageController extends CrudController
     {
         $fb->text('title')->label('Title');
         $fb->text('route')->label('Route');
-        $fb->modelSelect('layout_id')->alias('layout')->label('Layout')->model('Pages\Layout');
+        $fb->modelSelect('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
         
         if(DB::table('Admin\Resource')) {
-            $fb->modelSelect('resource_id')->alias('resource')->label('Resource')->model('Admin\Resource');            
+            $fb->modelSelect('resource_id')->alias('resource')->label('Resource')->model('Boyhagemann\Admin\Model\Resource');
         }
     }
 
@@ -31,7 +31,7 @@ class PageController extends CrudController
      */
     public function buildModel(ModelBuilder $mb)
     {
-        $mb->name('Pages\Page')->table('pages')->presenter('PagePresenter');
+        $mb->name('Boyhagemann\Pages\Model\Page')->table('pages')->presenter('PagePresenter');
     }
 
     /**

@@ -17,7 +17,7 @@ class SectionController extends CrudController
     {
         $fb->text('title')->label('Title');
         $fb->text('name')->label('Name');
-        $fb->modelSelect('layout_id')->label('Layout')->model('Pages\Layout');
+        $fb->modelSelect('layout_id')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
     }
 
     /**
@@ -25,7 +25,7 @@ class SectionController extends CrudController
      */
     public function buildModel(ModelBuilder $mb)
     {
-        $mb->name('Pages\Section')->table('sections');
+        $mb->name('Boyhagemann\Pages\Model\Section')->table('sections');
     }
 
     /**

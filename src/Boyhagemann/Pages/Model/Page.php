@@ -33,7 +33,7 @@ class Page extends \Eloquent implements PresentableInterface
      */
     public function layout()
     {
-        return $this->belongsTo('Pages\Layout');
+        return $this->belongsTo('Boyhagemann\Pages\Model\Layout');
     }
 
     /**
@@ -41,13 +41,13 @@ class Page extends \Eloquent implements PresentableInterface
      */
     public function content()
     {
-        return $this->hasMany('Pages\Content');
+        return $this->hasMany('Boyhagemann\Pages\Model\Content');
     }
 
     public function getBlocks()
     {        
         
-        $q = \Pages\Content::with(array('page', 'page.layout', 'section', 'block'));
+        $q = Content::with(array('page', 'page.layout', 'section', 'block'));
         
         $blocks = array();
         $globals = array();
