@@ -45,40 +45,44 @@ class Page extends \Eloquent implements PresentableInterface
     }
 
     public function getBlocks()
-    {        
-        
-        $q = Content::with(array('page', 'page.layout', 'section', 'block'));
+    {                
+        $q = Content::with(array('page', 'page.layout', 'page.layout.sections', 'section', 'block'));
         
         $blocks = array();
         $globals = array();
         
         foreach($q->get() as $content) {      
-                                    
-	    $config = array();
+                             
+            $route = $content->page->route;
+            
+            // Fill the empty sections first
+            if(!isset($blocks[$route])) {
+                foreach($content->page->layout->sections as $section) {
+                    $blocks[$route]['sections'][$section->name] = array();
+                }
+            }
+                   
             $section = $content->section->name;
-            $controller = $content->block->controller;
-                
-            if($content->global == 1) {
-        
-                $config['sections'][$section][]['controller'] = $controller;
-                $globals[] = $config;
+            $block = array(
+                'controller' => $content->block->controller,
+                'params' => $content->params,
+                'match' => $content->match,
+            );
+                        
+            if($content->global == 1) {     
+                $globals['sections'][$section][] = $block;
             }
-            else {
-                $config = array(
-                    'layout' => $content->page->layout->name,
-                );  
-                $config['sections'][$section][]['controller'] = $controller;
-                $blocks[$content->page->route] = $config;
+            else { 
+                $blocks[$route]['layout'] = $content->page->layout->name;  
+                $blocks[$route]['sections'][$section][] = $block;
             }
+            
         }
 
-        foreach($blocks as $route => &$config) {
-            foreach($globals as $global) {
-                $config = array_merge_recursive($config, $global);
-            }
+        foreach($blocks as &$config) {
+            $config = array_merge_recursive($config, $globals);
         }
-        
-        //var_dump($blocks); exit;
+                
         return $blocks;
     }
 }

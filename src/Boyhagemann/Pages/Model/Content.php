@@ -17,6 +17,8 @@ class Content extends \Eloquent
         'page_id',
         'section_id',
         'block_id',
+        'params',
+        'match',
         'global'
         );
 
@@ -44,6 +46,32 @@ class Content extends \Eloquent
         return $this->belongsTo('Boyhagemann\Pages\Model\Block');
     }
 
+    public function getParamsAttribute($value)
+    {
+        if(!$value) {
+            return array();
+        }
+        
+        return unserialize($value);
+    }
+    
+    public function setParamsAttribute(Array $value = array())
+    {
+        $this->attributes['params'] = serialize($value);
+    }
 
+    public function getMatchAttribute($value)
+    {
+        if(!$value) {
+            return array();
+        }
+        
+        return unserialize($value);
+    }
+    
+    public function setMatchAttribute(Array $value = array())
+    {
+        $this->attributes['match'] = serialize($value);
+    }
 }
 

@@ -24,6 +24,8 @@ class ContentController extends CrudController
         $fb->modelSelect('page_id')->alias('page')->label('Page')->model('Boyhagemann\Pages\Model\Page');
         $fb->modelSelect('section_id')->alias('section')->label('Section')->model('Boyhagemann\Pages\Model\Section');
         $fb->modelSelect('block_id')->alias('block')->label('Block')->model('Boyhagemann\Pages\Model\Block');
+        $fb->textarea('params')->label('Params');
+        $fb->textarea('match')->label('Match url params');
         $fb->checkbox('global')->label('Is globally available?');
     }
 
