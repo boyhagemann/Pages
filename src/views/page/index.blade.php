@@ -1,4 +1,8 @@
-<h2>Overview</h2>
+<div class="page-header">
+	<h1>Pages <small>Overview</small>
+	<small class="pull-right"><a href="{{ URL::route($route . '.create') }}" class="btn-primary btn">Create</a></small>
+	</h1>
+</div>
 
 <table class="table table-striped">
 	<tr>
@@ -15,11 +19,11 @@
 		@foreach($row->columns() as $column)
 		<td>{{ $column }}</td>
 		@endforeach
-		<td class="col-4">
+		<td class="col-3">
 			{{ Form::open(array('route' => array($route . '.destroy', $id), 'method' => 'DELETE')) }}
-			<a href="{{ URL::route($route . '.edit', $id) }}" class="btn btn-small btn-primary">Properties</a>
-			<a href="{{ URL::route('admin.content', $id) }}" class="btn btn-small btn-primary">Content</a>
-			{{ Form::submit('Delete', array('class' => 'btn btn-small')) }}
+			<a href="{{ URL::route($route . '.edit', $id) }}" class="btn btn-xs btn-default">Properties</a>
+			<a href="{{ URL::route('admin.content', $id) }}" class="btn btn-xs btn-default">Content</a>
+			{{ Form::submit('Delete', array('class' => 'btn btn-xs btn-link')) }}
 			{{ Form::close() }}
 		</td>
 	</tr>
@@ -28,7 +32,3 @@
 </table>
 
 {{ $overview->links() }}
-
-<div>
-	<a href="{{ URL::route($route . '.create') }}">Create</a>
-</div>

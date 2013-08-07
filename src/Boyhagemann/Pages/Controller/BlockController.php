@@ -9,6 +9,7 @@ use Boyhagemann\Overview\OverviewBuilder;
 
 class BlockController extends CrudController
 {
+	protected $title = 'Block';
 
     /**
      * @param FormBuilder $fb
