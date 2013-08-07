@@ -24,20 +24,22 @@ class PagesServiceProvider extends ServiceProvider
         $this->package('pages', 'pages');
         
         $this->app->register('Boyhagemann\Crud\CrudServiceProvider');
-        $this->app->register('Boyhagemann\Blocks\BlocksServiceProvider');        
+        $this->app->register('Boyhagemann\Blocks\BlocksServiceProvider');
     }
     
     public function boot()
     {
-	    Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks());
+		if(Schema::hasTable('pages')) {
+			Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks());
+		}
 
         Route::model('page', 'Pages\Page');
-                
+
         Route::get('admin/pages/{page}/content', array(
             'uses'  => 'Boyhagemann\Pages\Controller\ContentController@indexWithPage',
             'as'    => 'admin.content'
         ));
-        
+
         Route::resource('admin/layouts', 'Boyhagemann\Pages\Controller\LayoutController');
         Route::resource('admin/pages', 'Boyhagemann\Pages\Controller\PageController');
         Route::resource('admin/blocks', 'Boyhagemann\Pages\Controller\BlockController');

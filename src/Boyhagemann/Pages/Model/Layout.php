@@ -19,11 +19,11 @@ class Layout extends \Eloquent
         );
 
     /**
-     * @return \Pages\Section
+     * @return \Boyhagemann\Pages\Model\Section
      */
     public function sections()
     {
-        return $this->hasMany('Pages\Section');
+        return $this->hasMany('Boyhagemann\Pages\Model\Section');
     }
 
 
