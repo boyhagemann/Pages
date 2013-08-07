@@ -3,6 +3,7 @@
 namespace Boyhagemann\Pages\Model;
 
 use Robbo\Presenter\PresentableInterface;
+use DB;
 
 class Page extends \Eloquent implements PresentableInterface
 {
@@ -44,6 +45,13 @@ class Page extends \Eloquent implements PresentableInterface
     {
         return $this->hasMany('Boyhagemann\Pages\Model\Content');
     }
+
+	public function resource()
+	{
+		if(DB::table('Boyhagemann\Admin\Model\Resource')) {
+			return $this->belongsTo('Boyhagemann\Admin\Model\Resource');
+		}
+	}
 
     public function getBlocks()
     {                

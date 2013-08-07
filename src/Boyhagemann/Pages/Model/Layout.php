@@ -26,6 +26,14 @@ class Layout extends \Eloquent
         return $this->hasMany('Boyhagemann\Pages\Model\Section');
     }
 
+	/**
+	 * @return \Boyhagemann\Pages\Model\Page
+	 */
+	public function pages()
+	{
+		return $this->hasMany('Boyhagemann\Pages\Model\Page');
+	}
+
 
 }
 
