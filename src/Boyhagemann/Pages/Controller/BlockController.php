@@ -9,8 +9,6 @@ use Boyhagemann\Overview\OverviewBuilder;
 
 class BlockController extends CrudController
 {
-	protected $title = 'Block';
-
     /**
      * @param FormBuilder $fb
      */
@@ -36,6 +34,16 @@ class BlockController extends CrudController
         $ob->fields(array('title', 'controller'));
     }
 
+
+	/**
+	 * @return array
+	 */
+	public function config()
+	{
+		return array(
+			'title' => 'Block',
+		);
+	}
 
 }
 

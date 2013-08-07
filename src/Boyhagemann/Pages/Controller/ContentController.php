@@ -10,7 +10,7 @@ use Pages\Page;
 
 class ContentController extends CrudController
 {
-    public function indexWithPage(Page $page)
+	public function indexWithPage(Page $page)
     {
         $q = $this->getOverviewBuilder()->getQueryBuilder()->where('page_id', '=', $page->id);
         return $this->index();
@@ -46,6 +46,15 @@ class ContentController extends CrudController
         $ob->fields(array('page_id', 'section_id', 'block_id', 'global'));
     }
 
+	/**
+	 * @return array
+	 */
+	public function config()
+	{
+		return array(
+			'title' => 'Content',
+		);
+	}
 
 }
 

@@ -10,8 +10,6 @@ use DB;
 
 class PageController extends CrudController
 {
-    protected $viewIndex = 'pages::page.index';
-    
     /**
      * @param FormBuilder $fb
      */
@@ -43,6 +41,18 @@ class PageController extends CrudController
         $ob->fields(array('title', 'route', 'layout_id'));
     }
 
+	/**
+	 * @return array
+	 */
+	public function config()
+	{
+		return array(
+			'title' => 'Page',
+			'views' => array(
+				'index' => 'pages::page.index',
+			)
+		);
+	}
 
 }
 

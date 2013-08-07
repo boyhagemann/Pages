@@ -9,8 +9,7 @@ use Boyhagemann\Overview\OverviewBuilder;
 
 class SectionController extends CrudController
 {
-
-    /**
+	/**
      * @param FormBuilder $fb
      */
     public function buildForm(FormBuilder $fb)
@@ -36,6 +35,15 @@ class SectionController extends CrudController
         $ob->fields(array('title', 'name', 'layout_id'));
     }
 
+	/**
+	 * @return array
+	 */
+	public function config()
+	{
+		return array(
+			'title' => 'Section',
+		);
+	}
 
 }
 

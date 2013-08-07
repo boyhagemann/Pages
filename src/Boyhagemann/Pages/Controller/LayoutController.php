@@ -9,8 +9,7 @@ use Boyhagemann\Overview\OverviewBuilder;
 
 class LayoutController extends CrudController
 {
-
-    /**
+	/**
      * @param FormBuilder $fb
      */
     public function buildForm(FormBuilder $fb)
@@ -35,6 +34,19 @@ class LayoutController extends CrudController
     {
         $ob->fields(array('title'));
     }
+
+	/**
+	 * @return array
+	 */
+	public function config()
+	{
+		return array(
+			'title' => 'Layout',
+			'redirects' => array(
+				'test'
+			)
+		);
+	}
 
 
 }
