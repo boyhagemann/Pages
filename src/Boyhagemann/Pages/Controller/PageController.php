@@ -20,6 +20,7 @@ class PageController extends CrudController
         $fb->text('title')->label('Title');
         $fb->text('route')->label('Route');
         $fb->modelSelect('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
+		$fb->select('method')->label('Method')->choices(array('get' => 'GET', 'post' => 'POST', 'put' => 'PUT', 'patch' => 'PATCH', 'delete' => 'DELETE'))->value('get');
         
         if(DB::table('Admin\Resource')) {
             $fb->modelSelect('resource_id')->alias('resource')->label('Resource')->model('Boyhagemann\Admin\Model\Resource');

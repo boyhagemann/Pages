@@ -17,7 +17,8 @@ class Page extends \Eloquent implements PresentableInterface
     protected $fillable = array(
         'title',
         'route',
-        'layout_id'
+        'layout_id',
+		'method',
         );
 
     /**
@@ -54,6 +55,8 @@ class Page extends \Eloquent implements PresentableInterface
         foreach($q->get() as $content) {      
                              
             $route = $content->page->route;
+
+			$controller = $content->controller ?: $content->block->controller;
             
             // Fill the empty sections first
             if(!isset($blocks[$route])) {
@@ -64,7 +67,7 @@ class Page extends \Eloquent implements PresentableInterface
                    
             $section = $content->section->name;
             $block = array(
-                'controller' => $content->block->controller,
+                'controller' => $controller,
                 'params' => $content->params,
                 'match' => $content->match,
             );
@@ -85,5 +88,40 @@ class Page extends \Eloquent implements PresentableInterface
                 
         return $blocks;
     }
+
+	/**
+	 * @param        $title
+	 * @param        $route
+	 * @param        $controller
+	 * @param string $method
+	 * @param string $layout
+	 * @param string $section
+	 * @param array  $params
+	 * @param array  $match
+	 *
+	 * @return \Boyhagemann\Pages\Model\Page
+	 */
+	public static function createWithContent($title, $route, $controller, $method = 'get', $layout = 'layouts.default', $section = 'content', $params = null, $match = null)
+	{
+		$layout = Layout::whereName($layout)->first();
+		$section = Section::whereName($section)->first();
+
+		$page = new Page;
+		$page->title = $title;
+		$page->route = $route;
+		$page->layout()->associate($layout);
+		$page->method = $method;
+		$page->save();
+
+		$content = new Content;
+		$content->page()->associate($page);
+		$content->section()->associate($section);
+		$content->controller = $controller;
+		$content->params = (array) $params;
+		$content->match = (array) $match;
+		$content->save();
+
+		return $page;
+	}
 }
 

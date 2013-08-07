@@ -17,6 +17,7 @@ class Content extends \Eloquent
         'page_id',
         'section_id',
         'block_id',
+		'controller',
         'params',
         'match',
         'global'

@@ -31,6 +31,11 @@ class PagesServiceProvider extends ServiceProvider
     {
 		if(Schema::hasTable('pages')) {
 			Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks());
+
+			foreach(Model\Page::get() as $page) {
+				$method = $page->method;
+//				Route::$method($page->route, 'Boyhagemann\Pages\Controller\PageController@index');
+			}
 		}
 
         Route::model('page', 'Pages\Page');
