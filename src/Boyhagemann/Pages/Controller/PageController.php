@@ -6,10 +6,60 @@ use Boyhagemann\Crud\CrudController;
 use Boyhagemann\Form\FormBuilder;
 use Boyhagemann\Model\ModelBuilder;
 use Boyhagemann\Overview\OverviewBuilder;
-use DB;
+use Boyhagemann\Pages\Model\Page;
+use Boyhagemann\Pages\Model\Block;
+use DB, App, View, Input, Config;
 
 class PageController extends CrudController
 {
+	public function content(Page $page)
+	{
+		return $this->index();
+	}
+
+	/**
+	 * @param Page  $page
+	 * @param Block $block
+	 * @return mixed
+	 */
+	public function addContent(Page $page, Block $block)
+	{
+		list($controller, $action) = explode('@', $block->controller);
+
+		$controller = App::make($controller);
+		$portlet = $action . 'Portlet';
+		$fb = new FormBuilder;
+
+		if(method_exists($controller, $portlet)) {
+			$controller->$portlet($fb);
+		}
+
+		$form = $fb->build();
+
+		return View::make('pages::page.add-content', compact('form', 'page', 'block'));
+	}
+
+	/**
+	 * @param Page  $page
+	 * @param Block $block
+	 * @return mixed
+	 */
+	public function storeContent(Page $page, Block $block)
+	{
+		$controller = App::make('Boyhagemann\Pages\Controller\ContentController');
+		Config::set('crud::redirects.success.store', 'admin.pages.index');
+		Config::set('crud::redirects.error.store', 'admin.pages.content.create');
+
+		Input::replace(array(
+			'params' => Input::all(),
+			'page_id' => $page->id,
+			'block_id' => $block->id,
+			'section_id' => 4,
+		));
+
+		return $controller->store();
+	}
+
     /**
      * @param FormBuilder $fb
      */
@@ -44,9 +94,9 @@ class PageController extends CrudController
 	{
 		return array(
 			'title' => 'Page',
-			'views' => array(
-				'index' => 'pages::page.index',
-			)
+//			'view' => array(
+//				'index' => 'pages::page.index',
+//			)
 		);
 	}
 

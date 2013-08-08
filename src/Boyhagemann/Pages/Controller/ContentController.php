@@ -6,16 +6,9 @@ use Boyhagemann\Crud\CrudController;
 use Boyhagemann\Form\FormBuilder;
 use Boyhagemann\Model\ModelBuilder;
 use Boyhagemann\Overview\OverviewBuilder;
-use Pages\Page;
 
 class ContentController extends CrudController
 {
-	public function indexWithPage(Page $page)
-    {
-        $q = $this->getOverviewBuilder()->getQueryBuilder()->where('page_id', '=', $page->id);
-        return $this->index();
-    }
-
     /**
      * @param FormBuilder $fb
      */

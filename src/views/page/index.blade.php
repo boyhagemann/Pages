@@ -22,7 +22,7 @@
 		<td class="col-3">
 			{{ Form::open(array('route' => array($route . '.destroy', $id), 'method' => 'DELETE')) }}
 			<a href="{{ URL::route($route . '.edit', $id) }}" class="btn btn-xs btn-default">Properties</a>
-			<a href="{{ URL::route('admin.content', $id) }}" class="btn btn-xs btn-default">Content</a>
+			<a href="{{ URL::route('admin.pages.content', $id) }}" class="btn btn-xs btn-default">Content</a>
 			{{ Form::submit('Delete', array('class' => 'btn btn-xs btn-link')) }}
 			{{ Form::close() }}
 		</td>

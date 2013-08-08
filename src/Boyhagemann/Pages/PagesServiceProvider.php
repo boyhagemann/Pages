@@ -30,16 +30,27 @@ class PagesServiceProvider extends ServiceProvider
     
     public function boot()
     {
+		Route::model('page', 'Boyhagemann\Pages\Model\Page');
+		Route::model('block', 'Boyhagemann\Pages\Model\Block');
+
         Route::get('admin/pages/{page}/content', array(
-            'uses'  => 'Boyhagemann\Pages\Controller\ContentController@indexWithPage',
-            'as'    => 'admin.content'
+            'uses'  => 'Boyhagemann\Pages\Controller\PageController@content',
+            'as'    => 'admin.pages.content'
         ));
+		Route::get('admin/pages/{page}/content/create/{block}', array(
+			'uses'  => 'Boyhagemann\Pages\Controller\PageController@addContent',
+			'as'    => 'admin.pages.content.create'
+		));
+		Route::post('admin/pages/{page}/content/store/{block}', array(
+			'uses'  => 'Boyhagemann\Pages\Controller\PageController@storeContent',
+			'as'    => 'admin.pages.content.store'
+		));
 
         Route::resource('admin/layouts', 'Boyhagemann\Pages\Controller\LayoutController');
         Route::resource('admin/pages', 'Boyhagemann\Pages\Controller\PageController');
         Route::resource('admin/blocks', 'Boyhagemann\Pages\Controller\BlockController');
         Route::resource('admin/sections', 'Boyhagemann\Pages\Controller\SectionController');
-        Route::resource('admin/content', 'Boyhagemann\Pages\Controller\ContentController', array('excep' => array('index')));
+        Route::resource('admin/content', 'Boyhagemann\Pages\Controller\ContentController');
 
 		if(Schema::hasTable('pages')) {
 			Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks());
@@ -50,7 +61,7 @@ class PagesServiceProvider extends ServiceProvider
 			}
 
 			foreach(Model\Page::get() as $page) {
-				if(isset($routes[$page->route])) {
+				if($page->method != 'get' || isset($routes[$page->route])) {
 					continue;
 				}
 				$method = $page->method;
