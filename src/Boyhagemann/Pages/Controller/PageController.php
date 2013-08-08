@@ -19,10 +19,6 @@ class PageController extends CrudController
         $fb->text('route')->label('Route');
         $fb->modelSelect('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
 		$fb->select('method')->label('Method')->choices(array('get' => 'GET', 'post' => 'POST', 'put' => 'PUT', 'patch' => 'PATCH', 'delete' => 'DELETE'))->value('get');
-        
-        if(DB::table('Boyhagemann\Admin\Model\Resource')) {
-            $fb->modelSelect('resource_id')->alias('resource')->label('Resource')->model('Boyhagemann\Admin\Model\Resource');
-        }
     }
 
     /**
