@@ -2,10 +2,9 @@
 
 namespace Boyhagemann\Pages\Model;
 
-use Robbo\Presenter\PresentableInterface;
 use DB;
 
-class Page extends \Eloquent implements PresentableInterface
+class Page extends \Eloquent
 {
     protected $table = 'pages';
 
@@ -21,14 +20,6 @@ class Page extends \Eloquent implements PresentableInterface
         'layout_id',
 		'method',
         );
-
-    /**
-     * @return \PagePresenter
-     */
-    public function getPresenter()
-    {
-        return new \PagePresenter($this);
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Collection
