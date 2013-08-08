@@ -94,9 +94,11 @@ class PageController extends CrudController
 	{
 		return array(
 			'title' => 'Page',
-//			'view' => array(
-//				'index' => 'pages::page.index',
-//			)
+			'view' => array(
+				'create' => 'crud::crud.create',
+				'edit' => 'crud::crud.edit',
+				'index' => 'pages::page.index',
+			)
 		);
 	}
 
