@@ -52,9 +52,8 @@ class Page extends \Eloquent
         $globals = array();
         
         foreach($q->get() as $content) {      
-                             
-            $route = $content->page->route;
 
+            $route = $content->page->route;
 			$controller = $content->controller ?: $content->block->controller;
             
             // Fill the empty sections first
@@ -78,7 +77,7 @@ class Page extends \Eloquent
                 $blocks[$route]['layout'] = $content->page->layout->name;  
                 $blocks[$route]['sections'][$section][] = $block;
             }
-            
+
         }
 
         foreach($blocks as &$config) {
