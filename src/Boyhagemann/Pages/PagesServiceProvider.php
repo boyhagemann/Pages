@@ -29,15 +29,6 @@ class PagesServiceProvider extends ServiceProvider
     
     public function boot()
     {
-		if(Schema::hasTable('pages')) {
-			Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks());
-
-			foreach(Model\Page::get() as $page) {
-				$method = $page->method;
-//				Route::$method($page->route, 'Boyhagemann\Pages\Controller\PageController@index');
-			}
-		}
-
         Route::model('page', 'Pages\Page');
 
         Route::get('admin/pages/{page}/content', array(
@@ -50,6 +41,23 @@ class PagesServiceProvider extends ServiceProvider
         Route::resource('admin/blocks', 'Boyhagemann\Pages\Controller\BlockController');
         Route::resource('admin/sections', 'Boyhagemann\Pages\Controller\SectionController');
         Route::resource('admin/content', 'Boyhagemann\Pages\Controller\ContentController', array('excep' => array('index')));
+
+		if(Schema::hasTable('pages')) {
+			Config::set('blocks', App::make('Boyhagemann\Pages\Model\Page')->getBlocks());
+
+			$routes = array();
+			foreach(Route::getRoutes() as $route) {
+				$routes[$route->getPath()] = $route;
+			}
+
+			foreach(Model\Page::get() as $page) {
+				if(isset($routes[$page->route])) {
+					continue;
+				}
+				$method = $page->method;
+				Route::$method($page->route, function() {});
+			}
+		}
     }
 
     /**
