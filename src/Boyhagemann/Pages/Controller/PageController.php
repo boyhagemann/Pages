@@ -110,7 +110,8 @@ class PageController extends CrudController
 //				'create' => 'crud::crud.create',
 				'edit' => 'pages::page.edit',
 				'index' => 'pages::page.index',
-			)
+			),
+                        'redirects.success.store' => 'pages::page.content'
 		);
 	}
 
