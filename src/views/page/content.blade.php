@@ -15,12 +15,22 @@
 
 	@foreach($sections as $section)
 	<section class="">
-		<header>
-			<h2>{{ $section->title }}</h2>
+		<header class="row">
+			<h2 class="pull-left">{{ $section->title }}</h2>
+                        <ul class="nav pull-right">
+                            <li class="dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown">Add block <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    @foreach($blocks as $block)
+                                    <li><a href="{{ URL::route('admin.pages.content.create', array($page->id, $section->id, $block->id)) }}">{{ $block->title }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        </ul>
 		</header>
 		<ul class="list-unstyled">
-			@if(isset($blocks[$section->id]))
-			@foreach($blocks[$section->id] as $block)
+			@if(isset($page->blocks[$section->id]))
+			@foreach($page->blocks[$section->id] as $block)
 			<li class="well well-sm">
 				<h4>{{ $block->title }}</h4>
 			</li>

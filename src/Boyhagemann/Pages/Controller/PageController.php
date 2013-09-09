@@ -7,8 +7,9 @@ use Boyhagemann\Form\FormBuilder;
 use Boyhagemann\Model\ModelBuilder;
 use Boyhagemann\Overview\OverviewBuilder;
 use Boyhagemann\Pages\Model\Page;
+use Boyhagemann\Pages\Model\Section;
 use Boyhagemann\Pages\Model\Block;
-use DB, App, View, Input, Config;
+use DB, App, View, Input, Config, Redirect;
 
 class PageController extends CrudController
 {
@@ -19,17 +20,18 @@ class PageController extends CrudController
 	public function content(Page $page)
 	{
 		$sections = $page->layout->sections;
-		$blocks = $page->blocks;
+		$blocks = Block::all();
 
 		return View::make('pages::page.content', compact('page', 'sections', 'blocks'));
 	}
 
 	/**
 	 * @param Page  $page
+         * @param Section $section
 	 * @param Block $block
 	 * @return mixed
 	 */
-	public function addContent(Page $page, Block $block)
+	public function addContent(Page $page, Section $section, Block $block)
 	{
 		list($controller, $action) = explode('@', $block->controller);
 
@@ -38,20 +40,21 @@ class PageController extends CrudController
 		$fb = new FormBuilder;
 
 		if(method_exists($controller, $portlet)) {
-			$controller->$portlet($fb);
+                    $controller->$portlet($fb);
 		}
 
 		$form = $fb->build();
 
-		return View::make('pages::page.add-content', compact('form', 'page', 'block'));
+		return View::make('pages::page.add-content', compact('form', 'page', 'section', 'block'));
 	}
 
 	/**
 	 * @param Page  $page
+         * @param Section $section
 	 * @param Block $block
 	 * @return mixed
 	 */
-	public function storeContent(Page $page, Block $block)
+	public function storeContent(Page $page, Section $section, Block $block)
 	{
 		$controller = App::make('Boyhagemann\Pages\Controller\ContentController');
 		Config::set('crud::redirects.success.store', 'admin.pages.index');
@@ -61,10 +64,12 @@ class PageController extends CrudController
 			'params' => Input::all(),
 			'page_id' => $page->id,
 			'block_id' => $block->id,
-			'section_id' => 4,
+			'section_id' => $section->id,
 		));
 
-		return $controller->store();
+		$controller->store();
+                
+                return Redirect::route('admin.pages.content', $page->id);
 	}
 
     /**

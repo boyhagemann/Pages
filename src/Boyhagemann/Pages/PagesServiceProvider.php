@@ -31,17 +31,18 @@ class PagesServiceProvider extends ServiceProvider
     public function boot()
     {
 		Route::model('page', 'Boyhagemann\Pages\Model\Page');
+		Route::model('section', 'Boyhagemann\Pages\Model\Section');
 		Route::model('block', 'Boyhagemann\Pages\Model\Block');
 
         Route::get('admin/pages/{page}/content', array(
             'uses'  => 'Boyhagemann\Pages\Controller\PageController@content',
             'as'    => 'admin.pages.content'
         ));
-		Route::get('admin/pages/{page}/content/create/{block}', array(
+		Route::get('admin/pages/{page}/content/create/{section}/{block}', array(
 			'uses'  => 'Boyhagemann\Pages\Controller\PageController@addContent',
 			'as'    => 'admin.pages.content.create'
 		));
-		Route::post('admin/pages/{page}/content/store/{block}', array(
+		Route::post('admin/pages/{page}/content/store/{section}/{block}', array(
 			'uses'  => 'Boyhagemann\Pages\Controller\PageController@storeContent',
 			'as'    => 'admin.pages.content.store'
 		));
