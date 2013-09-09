@@ -34,8 +34,31 @@ class Page extends \Eloquent
      */
     public function content()
     {
-        return $this->hasMany('Boyhagemann\Pages\Model\Content');
+        return $this->hasMany('Boyhagemann\Pages\Model\Content')->with('block');
     }
+
+	/**
+	 * @return array
+	 */
+	public function getBlocksAttribute()
+	{
+		$blocks = array();
+
+		foreach($this->content as $content) {
+
+			$block = $content->block;
+			if(!$block instanceof Block) {
+				$block = new Block;
+				$block->title = 'Default block';
+				$block->controller = $content->controller;
+				$block->locked = true;
+			}
+
+			$blocks[$content->section_id][] = $block;
+		}
+
+		return $blocks;
+	}
 
 	public function resource()
 	{
@@ -47,7 +70,7 @@ class Page extends \Eloquent
     public function getBlocks()
     {                
         $q = Content::with(array('page', 'page.layout', 'page.layout.sections', 'section', 'block'));
-        
+
         $blocks = array();
         $globals = array();
         

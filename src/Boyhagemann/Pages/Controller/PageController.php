@@ -12,9 +12,16 @@ use DB, App, View, Input, Config;
 
 class PageController extends CrudController
 {
+	/**
+	 * @param Page $page
+	 * @return mixed
+	 */
 	public function content(Page $page)
 	{
-		return $this->index();
+		$sections = $page->layout->sections;
+		$blocks = $page->blocks;
+
+		return View::make('pages::page.content', compact('page', 'sections', 'blocks'));
 	}
 
 	/**
@@ -95,8 +102,8 @@ class PageController extends CrudController
 		return array(
 			'title' => 'Page',
 			'view' => array(
-				'create' => 'crud::crud.create',
-				'edit' => 'crud::crud.edit',
+//				'create' => 'crud::crud.create',
+				'edit' => 'pages::page.edit',
 				'index' => 'pages::page.index',
 			)
 		);
