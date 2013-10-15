@@ -2,7 +2,7 @@
 
 namespace Boyhagemann\Pages\Model;
 
-use DB;
+use DB, Str;
 
 class Page extends \Eloquent
 {
@@ -105,6 +105,61 @@ class Page extends \Eloquent
 //        return $blocks;
 //    }
 //
+
+	/**
+	 *
+	 */
+	static public function createResourcePages($title, $controller, $url)
+	{
+		// Create pages
+		foreach(array('index', 'create', 'store', 'edit', 'update', 'destroy') as $action) {
+
+			$route = '/' . trim($url, '/');
+			$alias = str_replace('/', '.', trim($url, '/')) . '.' . $action;
+			$title = $action;
+			$match = null;
+			$method = 'get';
+
+			switch($action) {
+
+				case 'index':
+					$title = Str::plural($title);
+					break;
+
+				case 'create':
+					$route .= '/create';
+					break;
+
+				case 'store':
+					$method = 'post';
+					break;
+
+				case 'edit':
+					$route .= '/{id}/edit';
+					break;
+
+				case 'update':
+					$method = 'put';
+					$route .= '/{id}';
+					break;
+
+				case 'destroy':
+					$method = 'delete';
+					$route .= '/{id}';
+					$title = 'delete';
+					break;
+			}
+
+			$layout = 'admin::layouts.admin';
+			$zone = 'content';
+
+			$page = self::createWithContent($title, $route, $controller . '@' . $action, $layout, $zone, $method, $alias);
+//			$page->resource()->associate($resource);
+			$page->save();
+		}
+
+	}
+
 	/**
 	 * @param        $title
 	 * @param        $route
