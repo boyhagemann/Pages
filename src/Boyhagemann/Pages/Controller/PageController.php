@@ -14,90 +14,100 @@ use DB, App, View, Input, Config, Redirect;
 class PageController extends CrudController
 {
 	/**
-	 * @param Page $page
-	 * @return mixed
+	 * @param FormBuilder $fb
 	 */
-	public function content(Page $page)
+	public function buildForm(FormBuilder $fb)
 	{
-		$sections = $page->layout->sections;
-		$blocks = Block::all();
-
-		return View::make('pages::page.content', compact('page', 'sections', 'blocks'));
+		$fb->text('title')->label('Title');
+		$fb->text('route')->label('Route');
+		$fb->text('alias')->label('Alias');
+		$fb->modelSelect('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
+		$fb->modelSelect('block_id')->alias('block')->label('Block')->model('Boyhagemann\Pages\Model\Block');
+		$fb->select('method')->label('Method')->choices(array(
+			'get' => 'GET',
+			'post' => 'POST',
+			'put' => 'PUT',
+			'patch' => 'PATCH',
+			'delete' => 'DELETE',
+			'resource' => 'Resource'
+		))->value('get');
 	}
 
 	/**
-	 * @param Page  $page
-         * @param Section $section
-	 * @param Block $block
-	 * @return mixed
+	 * @param ModelBuilder $mb
 	 */
-	public function addContent(Page $page, Section $section, Block $block)
+	public function buildModel(ModelBuilder $mb)
 	{
-		list($controller, $action) = explode('@', $block->controller);
-
-		$controller = App::make($controller);
-		$portlet = $action . 'Portlet';
-		$fb = new FormBuilder;
-
-		if(method_exists($controller, $portlet)) {
-                    $controller->$portlet($fb);
-		}
-
-		$form = $fb->build();
-
-		return View::make('pages::page.add-content', compact('form', 'page', 'section', 'block'));
+		$mb->name('Boyhagemann\Pages\Model\Page')->table('pages');
+		$mb->autoGenerate();
 	}
 
 	/**
-	 * @param Page  $page
-         * @param Section $section
-	 * @param Block $block
-	 * @return mixed
+	 * @param OverviewBuilder $ob
 	 */
-	public function storeContent(Page $page, Section $section, Block $block)
+	public function buildOverview(OverviewBuilder $ob)
 	{
-		$controller = App::make('Boyhagemann\Pages\Controller\ContentController');
-		Config::set('crud::redirects.success.store', 'admin.pages.index');
-		Config::set('crud::redirects.error.store', 'admin.pages.content.create');
-
-		Input::replace(array(
-			'params' => Input::all(),
-			'page_id' => $page->id,
-			'block_id' => $block->id,
-			'section_id' => $section->id,
-		));
-
-		$controller->store();
-                
-                return Redirect::route('admin.pages.content', $page->id);
+		$ob->fields(array('title', 'route', 'layout_id'));
 	}
 
-    /**
-     * @param FormBuilder $fb
-     */
-    public function buildForm(FormBuilder $fb)
-    {
-        $fb->text('title')->label('Title');
-        $fb->text('route')->label('Route');
-        $fb->modelSelect('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
-		$fb->select('method')->label('Method')->choices(array('get' => 'GET', 'post' => 'POST', 'put' => 'PUT', 'patch' => 'PATCH', 'delete' => 'DELETE'))->value('get');
-    }
-
-    /**
-     * @param ModelBuilder $mb
-     */
-    public function buildModel(ModelBuilder $mb)
-    {
-        $mb->name('Boyhagemann\Pages\Model\Page')->table('pages')->presenter('PagePresenter');
-    }
-
-    /**
-     * @param OverviewBuilder $ob
-     */
-    public function buildOverview(OverviewBuilder $ob)
-    {
-        $ob->fields(array('title', 'route', 'layout_id'));
-    }
+//	/**
+//	 * @param Page $page
+//	 * @return mixed
+//	 */
+//	public function content(Page $page)
+//	{
+//		$sections = $page->layout->sections;
+//		$blocks = Block::all();
+//
+//		return View::make('pages::page.content', compact('page', 'sections', 'blocks'));
+//	}
+//
+//	/**
+//	 * @param Page  $page
+//         * @param Section $section
+//	 * @param Block $block
+//	 * @return mixed
+//	 */
+//	public function addContent(Page $page, Section $section, Block $block)
+//	{
+//		list($controller, $action) = explode('@', $block->controller);
+//
+//		$controller = App::make($controller);
+//		$portlet = $action . 'Portlet';
+//		$fb = new FormBuilder;
+//
+//		if(method_exists($controller, $portlet)) {
+//                    $controller->$portlet($fb);
+//		}
+//
+//		$form = $fb->build();
+//
+//		return View::make('pages::page.add-content', compact('form', 'page', 'section', 'block'));
+//	}
+//
+//	/**
+//	 * @param Page  $page
+//         * @param Section $section
+//	 * @param Block $block
+//	 * @return mixed
+//	 */
+//	public function storeContent(Page $page, Section $section, Block $block)
+//	{
+//		$controller = App::make('Boyhagemann\Pages\Controller\ContentController');
+//		Config::set('crud::redirects.success.store', 'admin.pages.index');
+//		Config::set('crud::redirects.error.store', 'admin.pages.content.create');
+//
+//		Input::replace(array(
+//			'params' => Input::all(),
+//			'page_id' => $page->id,
+//			'block_id' => $block->id,
+//			'section_id' => $section->id,
+//		));
+//
+//		$controller->store();
+//
+//                return Redirect::route('admin.pages.content', $page->id);
+//	}
 
 	/**
 	 * @return array

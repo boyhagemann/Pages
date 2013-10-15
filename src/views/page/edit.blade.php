@@ -7,7 +7,7 @@
 
 <ul class="nav nav-pills">
 	<li class="active"><a href="{{ URL::route('admin.pages.edit', $model->id) }}">Properties</a></li>
-	<li><a href="{{ URL::route('admin.pages.content', $model->id) }}">Content</a></li>
+	<li><a href="">Content</a></li>
 </ul>
 <br>
 
