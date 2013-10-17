@@ -2,7 +2,7 @@
 
 namespace Boyhagemann\Pages\Model;
 
-use DB, Str;
+use DB, Str, Event;
 
 class Page extends \Eloquent
 {
@@ -31,133 +31,75 @@ class Page extends \Eloquent
         return $this->belongsTo('Boyhagemann\Pages\Model\Layout');
     }
 
-//    /**
-//     * @return \Illuminate\Database\Eloquent\Collection
-//     */
-//    public function content()
-//    {
-//        return $this->hasMany('Boyhagemann\Pages\Model\Content')->with('block');
-//    }
-//
-//	/**
-//	 * @return array
-//	 */
-//	public function getBlocksAttribute()
-//	{
-//		$blocks = array();
-//
-//		foreach($this->content as $content) {
-//
-//			$block = $content->block;
-//			if(!$block instanceof Block) {
-//				$block = new Block;
-//				$block->title = 'Default block';
-//				$block->controller = $content->controller;
-//				$block->locked = true;
-//			}
-//
-//			$blocks[$content->section_id][] = $block;
-//		}
-//
-//		return $blocks;
-//	}
-//
-//    public function getBlocks()
-//    {
-//        $q = Content::with(array('page', 'page.layout', 'page.layout.sections', 'section', 'block'));
-//
-//        $blocks = array();
-//        $globals = array();
-//
-//        foreach($q->get() as $content) {
-//
-//            $route = $content->page->route;
-//			$controller = $content->controller ?: $content->block->controller;
-//
-//            // Fill the empty sections first
-//            if(!isset($blocks[$route])) {
-//                foreach($content->page->layout->sections as $section) {
-//                    $blocks[$route]['sections'][$section->name] = array();
-//                }
-//            }
-//
-//            $section = $content->section->name;
-//            $block = array(
-//                'controller' => $controller,
-//                'params' => $content->params,
-//                'match' => $content->match,
-//            );
-//
-//            if($content->global == 1) {
-//                $globals['sections'][$section][] = $block;
-//            }
-//            else {
-//                $blocks[$route]['layout'] = $content->page->layout->name;
-//                $blocks[$route]['sections'][$section][] = $block;
-//            }
-//
-//        }
-//
-//        foreach($blocks as &$config) {
-//            $config = array_merge_recursive($config, $globals);
-//        }
-//
-//        return $blocks;
-//    }
-//
-
 	/**
-	 *
+	 * @param $title
+	 * @param $controller
+	 * @param $url
+	 * @return array
 	 */
 	static public function createResourcePages($title, $controller, $url)
 	{
 		// Create pages
 		foreach(array('index', 'create', 'store', 'edit', 'update', 'destroy') as $action) {
 
-			$route = '/' . trim($url, '/');
-			$alias = str_replace('/', '.', trim($url, '/')) . '.' . $action;
-			$title = $action;
-			$match = null;
-			$method = 'get';
-
-			switch($action) {
-
-				case 'index':
-					$title = Str::plural($title);
-					break;
-
-				case 'create':
-					$route .= '/create';
-					break;
-
-				case 'store':
-					$method = 'post';
-					break;
-
-				case 'edit':
-					$route .= '/{id}/edit';
-					break;
-
-				case 'update':
-					$method = 'put';
-					$route .= '/{id}';
-					break;
-
-				case 'destroy':
-					$method = 'delete';
-					$route .= '/{id}';
-					$title = 'delete';
-					break;
-			}
-
-			$layout = 'admin::layouts.admin';
-			$zone = 'content';
-
-			$page = self::createWithContent($title, $route, $controller . '@' . $action, $layout, $zone, $method, $alias);
-//			$page->resource()->associate($resource);
-			$page->save();
+			$pages[$action] = self::createResourcePage($title, $controller, $url, $action);
 		}
 
+		return $pages;
+	}
+
+	/**
+	 * @param $title
+	 * @param $controller
+	 * @param $url
+	 * @param $action
+	 * @return Page
+	 */
+	static public function createResourcePage($title, $controller, $url, $action)
+	{
+		$route = '/' . trim($url, '/');
+		$alias = str_replace('/', '.', trim($url, '/')) . '.' . $action;
+		$title = $action;
+		$match = null;
+		$method = 'get';
+
+		switch($action) {
+
+			case 'index':
+				$title = Str::plural($title);
+				break;
+
+			case 'create':
+				$route .= '/create';
+				break;
+
+			case 'store':
+				$method = 'post';
+				break;
+
+			case 'edit':
+				$route .= '/{id}/edit';
+				break;
+
+			case 'update':
+				$method = 'put';
+				$route .= '/{id}';
+				break;
+
+			case 'destroy':
+				$method = 'delete';
+				$route .= '/{id}';
+				$title = 'delete';
+				break;
+		}
+
+		$layout = 'admin::layouts.admin';
+		$zone = 'content';
+
+		$page = self::createWithContent($title, $route, $controller . '@' . $action, $layout, $zone, $method, $alias);
+//			$page->resource()->associate($resource);
+
+		return $page;
 	}
 
 	/**
@@ -173,15 +115,19 @@ class Page extends \Eloquent
 	{
 		$layout = Layout::whereName($layout)->first();
 //		$section = Section::whereName($section)->first();
+		$page = Page::whereRoute($route)->get();
 
-		$page = new Page;
-		$page->title = $title;
-		$page->route = $route;
-		$page->alias = $alias;
-		$page->layout()->associate($layout);
-		$page->controller = $controller;
-		$page->method = $method;
-//		$page->save();
+		if(!$page) {
+			$page = new Page;
+			$page->title = $title;
+			$page->route = $route;
+			$page->alias = $alias;
+			$page->layout()->associate($layout);
+			$page->controller = $controller;
+			$page->method = $method;
+			$page->save();
+		}
+
 
 //		$content = new Content;
 //		$content->page()->associate($page);
