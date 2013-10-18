@@ -115,7 +115,7 @@ class Page extends \Eloquent
 	{
 		$layout = Layout::whereName($layout)->first();
 //		$section = Section::whereName($section)->first();
-		$page = Page::whereRoute($route)->get();
+		$page = Page::whereRoute($route)->first();
 
 		if(!$page) {
 			$page = new Page;
