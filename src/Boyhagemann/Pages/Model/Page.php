@@ -106,15 +106,16 @@ class Page extends \Eloquent
 	 * @param        $title
 	 * @param        $route
 	 * @param        $controller
+	 * @param        $layout
+	 * @param string $section
 	 * @param string $method
-	 * @param string $layout
-	 *
-	 * @return \Boyhagemann\Pages\Model\Page
+	 * @param null   $alias
+	 * @return Page
 	 */
-	public static function createWithContent($title, $route, $controller, $layout, $zone = 'content', $method = 'get', $alias = null)
+	public static function createWithContent($title, $route, $controller, $layout, $section = 'content', $method = 'get', $alias = null)
 	{
 		$layout = Layout::whereName($layout)->first();
-//		$section = Section::whereName($section)->first();
+//		$section = Section::whereName($section)->whereLayout($layout->id)->first();
 		$page = Page::whereRoute($route)->first();
 
 		if(!$page) {
@@ -129,13 +130,7 @@ class Page extends \Eloquent
 		}
 
 
-//		$content = new Content;
-//		$content->page()->associate($page);
-//		$content->section()->associate($section);
-//		$content->controller = $controller;
-//		$content->params = (array) $params;
-//		$content->match = (array) $match;
-//		$content->save();
+		Event::fire('page.createWithContent', array($page));
 
 		return $page;
 	}
