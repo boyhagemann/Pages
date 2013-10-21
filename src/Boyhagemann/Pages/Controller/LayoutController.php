@@ -16,6 +16,7 @@ class LayoutController extends CrudController
     {
         $fb->text('title')->label('Title');
         $fb->text('name')->label('Name');
+        $fb->modelSelect('mainSection')->model('Boyhagemann\Pages\Model\Section')->label('Main section');
     }
 
     /**

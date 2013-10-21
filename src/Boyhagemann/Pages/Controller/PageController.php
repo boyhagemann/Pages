@@ -22,7 +22,7 @@ class PageController extends CrudController
 		$fb->text('route')->label('Route');
 		$fb->text('alias')->label('Alias');
 		$fb->modelSelect('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
-		$fb->modelSelect('block_id')->alias('block')->label('Block')->model('Boyhagemann\Pages\Model\Block');
+		$fb->text('controller')->label('Controller');
 		$fb->select('method')->label('Method')->choices(array(
 			'get' => 'GET',
 			'post' => 'POST',
@@ -49,65 +49,6 @@ class PageController extends CrudController
 	{
 		$ob->fields(array('title', 'route', 'layout_id'));
 	}
-
-//	/**
-//	 * @param Page $page
-//	 * @return mixed
-//	 */
-//	public function content(Page $page)
-//	{
-//		$sections = $page->layout->sections;
-//		$blocks = Block::all();
-//
-//		return View::make('pages::page.content', compact('page', 'sections', 'blocks'));
-//	}
-//
-//	/**
-//	 * @param Page  $page
-//         * @param Section $section
-//	 * @param Block $block
-//	 * @return mixed
-//	 */
-//	public function addContent(Page $page, Section $section, Block $block)
-//	{
-//		list($controller, $action) = explode('@', $block->controller);
-//
-//		$controller = App::make($controller);
-//		$portlet = $action . 'Portlet';
-//		$fb = new FormBuilder;
-//
-//		if(method_exists($controller, $portlet)) {
-//                    $controller->$portlet($fb);
-//		}
-//
-//		$form = $fb->build();
-//
-//		return View::make('pages::page.add-content', compact('form', 'page', 'section', 'block'));
-//	}
-//
-//	/**
-//	 * @param Page  $page
-//         * @param Section $section
-//	 * @param Block $block
-//	 * @return mixed
-//	 */
-//	public function storeContent(Page $page, Section $section, Block $block)
-//	{
-//		$controller = App::make('Boyhagemann\Pages\Controller\ContentController');
-//		Config::set('crud::redirects.success.store', 'admin.pages.index');
-//		Config::set('crud::redirects.error.store', 'admin.pages.content.create');
-//
-//		Input::replace(array(
-//			'params' => Input::all(),
-//			'page_id' => $page->id,
-//			'block_id' => $block->id,
-//			'section_id' => $section->id,
-//		));
-//
-//		$controller->store();
-//
-//                return Redirect::route('admin.pages.content', $page->id);
-//	}
 
 	/**
 	 * @return array
