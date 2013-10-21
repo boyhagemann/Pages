@@ -118,6 +118,10 @@ class Page extends \Eloquent
 //		$section = Section::whereName($section)->whereLayout($layout->id)->first();
 		$page = Page::whereRoute($route)->first();
 
+		if(!$alias) {
+			$alias = $route;
+		}
+
 		if(!$page) {
 			$page = new Page;
 			$page->title = $title;

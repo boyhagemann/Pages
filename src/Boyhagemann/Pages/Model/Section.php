@@ -27,6 +27,5 @@ class Section extends \Eloquent
         return $this->belongsTo('Pages\Layout');
     }
 
-
 }
 
