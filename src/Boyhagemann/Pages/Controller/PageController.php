@@ -39,7 +39,6 @@ class PageController extends CrudController
 	public function buildModel(ModelBuilder $mb)
 	{
 		$mb->name('Boyhagemann\Pages\Model\Page')->table('pages');
-		$mb->autoGenerate();
 	}
 
 	/**
