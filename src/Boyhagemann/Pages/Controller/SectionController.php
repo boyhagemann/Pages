@@ -16,7 +16,6 @@ class SectionController extends CrudController
     {
         $fb->text('title')->label('Title');
         $fb->text('name')->label('Name');
-        $fb->modelSelect('layout_id')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
     }
 
     /**
@@ -32,7 +31,7 @@ class SectionController extends CrudController
      */
     public function buildOverview(OverviewBuilder $ob)
     {
-        $ob->fields(array('title', 'name', 'layout_id'));
+        $ob->fields(array('title', 'name'));
     }
 
 	/**

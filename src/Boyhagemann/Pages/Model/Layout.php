@@ -15,7 +15,7 @@ class Layout extends \Eloquent
 
     protected $fillable = array(
         'title',
-        'name'
+        'name',
     );
 
     /**
@@ -23,7 +23,7 @@ class Layout extends \Eloquent
      */
     public function sections()
     {
-        return $this->hasMany('Boyhagemann\Pages\Model\Section');
+        return $this->belongsToMany('Boyhagemann\Pages\Model\Section', 'layouts_section', 'layouts_id');
     }
 
     /**
@@ -32,14 +32,6 @@ class Layout extends \Eloquent
     public function pages()
     {
         return $this->hasMany('Boyhagemann\Pages\Model\Page');
-    }
-    
-    /**
-     * @return \Boyhagemann\Pages\Model\Section
-     */
-    public function mainSection()
-    {
-        return $this->belongsTo('Boyhagemann\Pages\Model\Section');
     }
 }
 

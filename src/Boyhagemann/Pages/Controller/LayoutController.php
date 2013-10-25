@@ -16,7 +16,7 @@ class LayoutController extends CrudController
     {
         $fb->text('title')->label('Title');
         $fb->text('name')->label('Name');
-        $fb->modelSelect('mainSection')->model('Boyhagemann\Pages\Model\Section')->label('Main section');
+        $fb->modelCheckbox('sections')->model('Boyhagemann\Pages\Model\Section')->label('Sections');
     }
 
     /**
@@ -25,7 +25,7 @@ class LayoutController extends CrudController
     public function buildModel(ModelBuilder $mb)
     {
         $mb->name('Boyhagemann\Pages\Model\Layout')->table('layouts');
-        $mb->hasMany('Boyhagemann\Pages\Model\Section')->alias('sections');
+        $mb->hasMany('sections')->model('Boyhagemann\Pages\Model\Section');
     }
 
     /**

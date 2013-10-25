@@ -16,16 +16,7 @@ class Section extends \Eloquent
     protected $fillable = array(
         'title',
         'name',
-        'layout_id'
         );
-
-    /**
-     * @return \Pages\Layout
-     */
-    public function layout_id()
-    {
-        return $this->belongsTo('Pages\Layout');
-    }
 
 }
 
