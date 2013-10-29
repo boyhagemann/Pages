@@ -23,7 +23,7 @@ class Layout extends \Eloquent
      */
     public function sections()
     {
-        return $this->belongsToMany('Boyhagemann\Pages\Model\Section', 'layouts_section', 'layouts_id');
+        return $this->belongsToMany('Boyhagemann\Pages\Model\Section');
     }
 
     /**

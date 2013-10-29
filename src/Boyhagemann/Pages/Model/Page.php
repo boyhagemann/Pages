@@ -93,6 +93,8 @@ class Page extends \Eloquent
 
         $page = self::createWithContent($title, $route, $controller . '@' . $action, $layout, $method, $alias);
 
+        Event::fire('page.createResourcePage', array($page));
+        
         return $page;
     }
 
@@ -106,7 +108,7 @@ class Page extends \Eloquent
      * @param null   $alias
      * @return Page
      */
-    public static function createWithContent($title, $route, $controller, $layout, $method = 'get', $alias = null)
+    public static function createWithContent($title, $route, $controller, $layout = 'layouts.default', $method = 'get', $alias = null)
     {
         $layout = Layout::whereName($layout)->first();
         $page = Page::whereRoute($route)->whereMethod($method)->first();
