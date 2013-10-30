@@ -94,7 +94,7 @@ class Page extends \Eloquent
         $page = self::createWithContent($title, $route, $controller . '@' . $action, $layout, $method, $alias);
 
 		Event::fire('page.createResourcePage', array($page, $action));
-		
+
         return $page;
     }
 
