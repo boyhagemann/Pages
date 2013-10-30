@@ -49,21 +49,5 @@ class PageController extends CrudController
 		$ob->fields(array('title', 'route', 'layout_id'));
 	}
 
-	/**
-	 * @return array
-	 */
-	public function config()
-	{
-		return array(
-			'title' => 'Page',
-			'view' => array(
-//				'create' => 'crud::crud.create',
-				'edit' => 'pages::page.edit',
-				'index' => 'pages::page.index',
-			),
-                        'redirects.success.store' => 'pages::page.content'
-		);
-	}
-
 }
 

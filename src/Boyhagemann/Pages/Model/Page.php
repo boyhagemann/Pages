@@ -43,6 +43,8 @@ class Page extends \Eloquent
             $pages[$action] = self::createResourcePage($title, $controller, $url, $action, $layout);
         }
 
+        Event::fire('page.createResourcePages', array($pages));
+        
         return $pages;
     }
 
@@ -57,37 +59,36 @@ class Page extends \Eloquent
     {
         $route = '/' . trim($url, '/');
         $alias = str_replace('/', '.', trim($url, '/')) . '.' . $action;
-        $title = $action;
         $match = null;
         $method = 'get';
 
         switch ($action) {
 
-            case 'index':
-                $title = Str::plural($title);
-                break;
-
             case 'create':
+                $title = Str::title($action);
                 $route .= '/create';
                 break;
 
             case 'store':
+                $title = Str::title($action);
                 $method = 'post';
                 break;
 
             case 'edit':
+                $title = Str::title($action);
                 $route .= '/{id}/edit';
                 break;
 
             case 'update':
+                $title = Str::title($action);
                 $method = 'put';
                 $route .= '/{id}';
                 break;
 
             case 'destroy':
+                $title = 'Delete';
                 $method = 'delete';
                 $route .= '/{id}';
-                $title = 'delete';
                 break;
         }
 
