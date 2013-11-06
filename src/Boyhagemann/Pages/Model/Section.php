@@ -4,6 +4,8 @@ namespace Boyhagemann\Pages\Model;
 
 class Section extends \Eloquent
 {
+	const MODE_PUBLIC 		= 'public';
+	const MODE_PROTECTED 	= 'protected';
 
     protected $table = 'sections';
 
@@ -16,7 +18,25 @@ class Section extends \Eloquent
     protected $fillable = array(
         'title',
         'name',
+		'mode'
         );
+
+	/**
+	 * @return bool
+	 */
+	public function isPublic()
+	{
+		return $this->mode == self::MODE_PUBLIC;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isProtected()
+	{
+		return $this->mode == self::MODE_PROTECTED;
+	}
+
 
 }
 

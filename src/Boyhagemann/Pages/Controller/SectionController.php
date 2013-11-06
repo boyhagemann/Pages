@@ -16,6 +16,10 @@ class SectionController extends CrudController
     {
         $fb->text('title')->label('Title');
         $fb->text('name')->label('Name');
+        $fb->select('mode')->label('Content mode')->choices(array(
+			'protected' => 'Cannot add content',
+			'public' => 'Can add content',
+		))->default('public');
     }
 
     /**
