@@ -23,9 +23,7 @@ class PagesServiceProvider extends ServiceProvider
     {
         $this->package('pages', 'pages');
         
-//        $this->app->register('Boyhagemann\Crud\CrudServiceProvider');
-//        $this->app->register('Boyhagemann\Blocks\BlocksServiceProvider');
-//        $this->app->register('Boyhagemann\Text\TextServiceProvider');
+        $this->app->register('Boyhagemann\Crud\CrudServiceProvider');
     }
     
     public function boot()
@@ -53,20 +51,27 @@ class PagesServiceProvider extends ServiceProvider
 //        Route::resource('admin/sections', 'Boyhagemann\Pages\Controller\SectionController');
 //        Route::resource('admin/content', 'Boyhagemann\Pages\Controller\ContentController');
 
-		if(Schema::hasTable('pages')) {
+		try {
 
-			foreach(Model\Page::get() as $page) {
+			if(Schema::hasTable('pages')) {
 
-				$method = $page->method;
-				$config['uses'] = $page->controller;
-				if($page->alias) {
-					$config['as'] = $page->alias;
+				foreach(Model\Page::get() as $page) {
+
+					$method = $page->method;
+					$config['uses'] = $page->controller;
+					if($page->alias) {
+						$config['as'] = $page->alias;
+					}
+
+					Route::$method($page->route, $config);
 				}
 
-				Route::$method($page->route, $config);
 			}
+		}
+		catch(\Exception $e) {
 
 		}
+
     }
 
     /**
