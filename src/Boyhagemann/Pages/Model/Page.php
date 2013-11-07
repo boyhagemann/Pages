@@ -35,8 +35,12 @@ class Page extends \Eloquent
      * @param $url
      * @return array
      */
-    static public function createResourcePages($title, $controller, $url, $layout = 'admin::layouts.admin')
+    static public function createResourcePages($title, $controller, $url = null, $layout = 'layouts.admin')
     {
+		if(!$url) {
+			$url = 'admin/' . Str::slug($title);
+		}
+
         // Create pages
         foreach (array('index', 'create', 'store', 'edit', 'update', 'destroy') as $action) {
 
