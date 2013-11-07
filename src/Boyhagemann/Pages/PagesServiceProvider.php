@@ -2,8 +2,9 @@
 
 namespace Boyhagemann\Pages;
 
+use Boyhagemann\Pages\Model\Page;
 use Illuminate\Support\ServiceProvider;
-use Route, App, Config, Schema;
+use Route, App, Config, Schema, Exception;
 
 class PagesServiceProvider extends ServiceProvider
 {
@@ -28,47 +29,38 @@ class PagesServiceProvider extends ServiceProvider
     
     public function boot()
     {
-//		Route::model('page', 'Boyhagemann\Pages\Model\Page');
-//		Route::model('section', 'Boyhagemann\Pages\Model\Section');
-//		Route::model('block', 'Boyhagemann\Pages\Model\Block');
 
-//        Route::get('admin/pages/{page}/content', array(
-//            'uses'  => 'Boyhagemann\Pages\Controller\PageController@content',
-//            'as'    => 'admin.pages.content'
-//        ));
-//		Route::get('admin/pages/{page}/content/create/{section}/{block}', array(
-//			'uses'  => 'Boyhagemann\Pages\Controller\PageController@addContent',
-//			'as'    => 'admin.pages.content.create'
-//		));
-//		Route::post('admin/pages/{page}/content/store/{section}/{block}', array(
-//			'uses'  => 'Boyhagemann\Pages\Controller\PageController@storeContent',
-//			'as'    => 'admin.pages.content.store'
-//		));
-//
-//        Route::resource('admin/layouts', 'Boyhagemann\Pages\Controller\LayoutController');
-//        Route::resource('admin/pages', 'Boyhagemann\Pages\Controller\PageController');
-//        Route::resource('admin/blocks', 'Boyhagemann\Pages\Controller\BlockController');
-//        Route::resource('admin/sections', 'Boyhagemann\Pages\Controller\SectionController');
-//        Route::resource('admin/content', 'Boyhagemann\Pages\Controller\ContentController');
-
+		/**
+		 *
+		 * Get all pages that are in the database. We can't be sure if there is a working database
+		 * connection, so put the code in a try/catch.
+		 *
+		 */
 		try {
 
-			if(Schema::hasTable('pages')) {
+			foreach(Page::get() as $page) {
 
-				foreach(Model\Page::get() as $page) {
+				$method = $page->method;
+				$config['uses'] = $page->controller;
 
-					$method = $page->method;
-					$config['uses'] = $page->controller;
-					if($page->alias) {
-						$config['as'] = $page->alias;
-					}
-
-					Route::$method($page->route, $config);
+				// Add an alias if it exists for this page
+				if($page->alias) {
+					$config['as'] = $page->alias;
 				}
 
+				// Add the route the conventional way, only this time all the routes
+				// are added dynamically.
+				Route::$method($page->route, $config);
 			}
+
 		}
-		catch(\Exception $e) {
+		catch(Exception $e) {
+
+			/**
+			 * There is probably no database connection yet. We can't get the pages from
+			 * the database, so fall back to the original routes in Laravel.
+			 *
+			 */
 
 		}
 
