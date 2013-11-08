@@ -3,6 +3,7 @@
 namespace Boyhagemann\Pages;
 
 use Boyhagemann\Pages\Model\Page;
+use Boyhagemann\Pages\Model\PageRepository;
 use Illuminate\Support\ServiceProvider;
 use Route, App, Config, Schema, Exception;
 
@@ -39,18 +40,7 @@ class PagesServiceProvider extends ServiceProvider
 		try {
 
 			foreach(Page::get() as $page) {
-
-				$method = $page->method;
-				$config['uses'] = $page->controller;
-
-				// Add an alias if it exists for this page
-				if($page->alias) {
-					$config['as'] = $page->alias;
-				}
-
-				// Add the route the conventional way, only this time all the routes
-				// are added dynamically.
-				Route::$method($page->route, $config);
+				PageRepository::createRoute($page);
 			}
 
 		}
