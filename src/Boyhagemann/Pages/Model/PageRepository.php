@@ -47,29 +47,33 @@ class PageRepository
 
 		switch ($action) {
 
+			case 'index':
+				$title = Str::plural($title);
+				break;
+
 			case 'create':
-				$title = Str::title($action);
+				$title = 'Create new ' . $title;
 				$route .= '/create';
 				break;
 
 			case 'store':
-				$title = Str::title($action);
+				$title = 'Store ' . $title;
 				$method = 'post';
 				break;
 
 			case 'edit':
-				$title = Str::title($action);
+				$title = 'Edit ' . $title;
 				$route .= '/{id}/edit';
 				break;
 
 			case 'update':
-				$title = Str::title($action);
+				$title = 'Update ' . $title;
 				$method = 'put';
 				$route .= '/{id}';
 				break;
 
 			case 'destroy':
-				$title = 'Delete';
+				$title = 'Delete ' . $title;
 				$method = 'delete';
 				$route .= '/{id}';
 				break;
