@@ -18,8 +18,8 @@ class PageController extends CrudController
 	 */
 	public function buildForm(FormBuilder $fb)
 	{
-		$fb->text('title')->label('Title');
-		$fb->text('route')->label('Route');
+		$fb->text('title')->label('Title')->required();
+		$fb->text('route')->label('Route')->required();
 		$fb->text('alias')->label('Alias');
 		$fb->modelSelect('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
 		$fb->text('controller')->label('Controller');

@@ -6,7 +6,10 @@ class Page extends \Eloquent
 {
     protected $table = 'pages';
     public $timestamps = false;
-    public $rules = array();
+    public $rules = array(
+        'title' => 'required',
+        'route' => 'required',
+    );
     protected $guarded = array('id');
     protected $fillable = array(
         'title',
