@@ -85,7 +85,7 @@ class PageRepository
 
 		return $page;
 	}
-
+    
 	/**
 	 * @param        $title
 	 * @param        $route
@@ -97,24 +97,33 @@ class PageRepository
 	 * @return Page
 	 */
 	public static function createWithContent($title, $route, $controller, $layout = 'layouts.default', $method = 'get', $alias = null)
-	{
-		$layout = Layout::whereName($layout)->first();
+    {        
 		$page = Page::whereRoute($route)->whereMethod($method)->first();
 
-		if (!$alias) {
-			$alias = $route;
-		}
+        // Nothing to do if the page already exists
+		if ($page) {
+            return $page;
+        }
 
-		if (!$page) {
-			$page = new Page;
-			$page->title = $title;
-			$page->route = $route;
-			$page->alias = $alias;
-			$page->layout()->associate($layout);
-			$page->controller = $controller;
-			$page->method = $method;
-			$page->save();
-		}
+        // Page does not exist yet, continue creating...
+        
+        if (!$alias) {
+            $alias = $route;
+        }
+
+        $page = new Page;
+        $page->title = $title;
+        $page->route = $route;
+        $page->alias = $alias;
+        $page->controller = $controller;
+        $page->method = $method;
+        
+        if($layout) {
+            $layout = Layout::whereName($layout)->first();
+            $page->layout()->associate($layout);
+        }
+        
+        $page->save();
 
 
 		Event::fire('page.createWithContent', array($page));
@@ -123,9 +132,9 @@ class PageRepository
 		self::createRoute($page);
 
 		return $page;
-	}
+    }
 
-	/**
+    /**
 	 * @param Page $page
 	 */
 	static public function createRoute(Page $page)
