@@ -59,6 +59,7 @@ class PageRepository
 			case 'store':
 				$title = 'Store ' . $title;
 				$method = 'post';
+				$layout = null;
 				break;
 
 			case 'edit':
@@ -70,12 +71,14 @@ class PageRepository
 				$title = 'Update ' . $title;
 				$method = 'put';
 				$route .= '/{id}';
+				$layout = null;
 				break;
 
 			case 'destroy':
 				$title = 'Delete ' . $title;
 				$method = 'delete';
 				$route .= '/{id}';
+				$layout = null;
 				break;
 		}
 
