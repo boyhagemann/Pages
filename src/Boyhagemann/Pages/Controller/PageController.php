@@ -21,7 +21,7 @@ class PageController extends CrudController
 		$fb->text('title')->label('Title')->required();
 		$fb->text('route')->label('Route')->required();
 		$fb->text('alias')->label('Alias');
-		$fb->modelSelect('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout');
+		$fb->modelRadio('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout')->value(2);
 		$fb->text('controller')->label('Controller');
 		$fb->select('method')->label('Method')->choices(array(
 			'get' => 'GET',
