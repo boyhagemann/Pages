@@ -144,6 +144,7 @@ class PageRepository
    {
 	   $method = $page->method;
 	   $config['uses'] = $page->controller;
+       $config['before'] = 'auth';
 
 	   // Add an alias if it exists for this page
 	   if($page->alias) {
@@ -152,7 +153,11 @@ class PageRepository
 
 	   // Add the route the conventional way, only this time all the routes
 	   // are added dynamically.
-	   Route::$method($page->route, $config);
+	   $route = Route::$method($page->route, $config, compact('page'));
+       
+       // Add the current page as an option to the route, so we know
+       // the page responsible for this route.
+       $route->setOption('page', $page);
    }
 }
 
