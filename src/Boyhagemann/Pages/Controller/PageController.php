@@ -23,6 +23,7 @@ class PageController extends CrudController
 		$fb->text('alias')->label('Alias');
 		$fb->modelRadio('layout_id')->alias('layout')->label('Layout')->model('Boyhagemann\Pages\Model\Layout')->value(2);
 		$fb->text('controller')->label('Controller');
+		$fb->text('color')->label('Color')->value('#31b0d5');
 		$fb->select('method')->label('Method')->choices(array(
 			'get' => 'GET',
 			'post' => 'POST',
