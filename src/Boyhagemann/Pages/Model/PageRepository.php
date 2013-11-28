@@ -13,10 +13,9 @@ class PageRepository
 	 * @param $controller
 	 * @param $url
 	 * @param $layout
-	 * @param $color
 	 * @return array
 	 */
-	static public function createResourcePages($title, $controller, $url = null, $layout = 'layouts.admin', $color = '#31b0d5')
+	static public function createResourcePages($title, $controller, $url = null, $layout = 'layouts.admin')
 	{
 		if(!$url) {
 			$url = 'admin/' . Str::slug($title);
@@ -25,7 +24,7 @@ class PageRepository
 		// Create pages
 		foreach (array('index', 'create', 'store', 'edit', 'update', 'destroy') as $action) {
 
-			$pages[$action] = self::createResourcePage($title, $controller, $url, $action, $layout, $color);
+			$pages[$action] = self::createResourcePage($title, $controller, $url, $action, $layout);
 		}
 
 		Event::fire('page.createResourcePages', array($pages));
@@ -39,10 +38,9 @@ class PageRepository
 	 * @param $url
 	 * @param $action
 	 * @param $layout
-	 * @param $color
 	 * @return Page
 	 */
-	static public function createResourcePage($title, $controller, $url, $action, $layout, $color = '#31b0d5')
+	static public function createResourcePage($title, $controller, $url, $action, $layout = 'layouts.admin')
 	{
 		$route = '/' . trim($url, '/');
 		$alias = str_replace('/', '.', trim($url, '/')) . '.' . $action;
@@ -86,7 +84,7 @@ class PageRepository
 				break;
 		}
 
-		$page = self::createWithContent($title, $route, $controller . '@' . $action, $layout, $method, $alias, $color);
+		$page = self::createWithContent($title, $route, $controller . '@' . $action, $layout, $method, $alias);
 
 		Event::fire('page.createResourcePage', array($page, $action));
 
@@ -101,10 +99,9 @@ class PageRepository
 	 * @param string $section
 	 * @param string $method
 	 * @param null   $alias
-	 * @param null   $color
 	 * @return Page
 	 */
-	public static function createWithContent($title, $route, $controller, $layout = 'layouts.default', $method = 'get', $alias = null, $color = '#31b0d5')
+	public static function createWithContent($title, $route, $controller, $layout = 'layouts.default', $method = 'get', $alias = null)
     {        
 		$page = Page::whereRoute($route)->whereMethod($method)->first();
 
@@ -125,7 +122,6 @@ class PageRepository
         $page->alias = $alias;
         $page->controller = $controller;
         $page->method = $method;
-        $page->color = $color;
 
         if($layout) {
             $layout = Layout::whereName($layout)->first();
