@@ -35,7 +35,7 @@ class SetPermissionsForViewingPage
 	public function onCreateWithContent(Page $page)
 	{
         $permission = 'view.page.' . $page->alias;
-        
+
         if(strpos($page->alias, 'admin.') === 0) {
             
             $admin = Sentry::findGroupByName('admin');
