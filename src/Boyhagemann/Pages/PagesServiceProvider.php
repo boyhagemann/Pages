@@ -5,7 +5,7 @@ namespace Boyhagemann\Pages;
 use Boyhagemann\Pages\Model\Page;
 use Boyhagemann\Pages\Model\PageRepository;
 use Illuminate\Support\ServiceProvider;
-use Route, App, Config, Schema, Exception;
+use PDOException;
 
 class PagesServiceProvider extends ServiceProvider
 {
@@ -30,7 +30,6 @@ class PagesServiceProvider extends ServiceProvider
     
     public function boot()
     {
-
 		/**
 		 *
 		 * Get all pages that are in the database. We can't be sure if there is a working database
@@ -42,10 +41,10 @@ class PagesServiceProvider extends ServiceProvider
 			foreach(Page::get() as $page) {
 				PageRepository::createRoute($page);
 			}
-
+            
 		}
-		catch(Exception $e) {
-
+		catch(PDOException $e) {
+            
 			/**
 			 * There is probably no database connection yet. We can't get the pages from
 			 * the database, so fall back to the original routes in Laravel.
